@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<HBox onMouseClicked="#onDialogClicked" fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER"
+        fx:controller="com.project.schoolsystem.ui.panel.SignOutDialog" stylesheets="/css/theme.css" styleClass="bg-primary-variant">
+    <padding>
+        <Insets left="10" right="10" top="10" bottom="10"/>
+    </padding>
+    <FontAwesomeIconView glyphName="ANGLE_LEFT" size="20" fill="white"/>
+    <Region prefWidth="10"/>
+    <Label text="Sign Out" styleClass="text-on-primary"/>
+    <cursor>
+        <Cursor fx:constant="HAND" />
+    </cursor>
+</HBox>

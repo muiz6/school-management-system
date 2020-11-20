@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<HBox fx:id="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+        prefHeight="20.0" prefWidth="100.0" fx:controller="com.project.schoolsystem.ui.panel.DrawerTile"
+        alignment="CENTER_LEFT">
+    <padding>
+        <Insets left="5"
+                right="5"
+                top="5"
+                bottom="5"/>
+    </padding>
+    <FontAwesomeIconView fill="white" fx:id="icon"/>
+    <Region HBox.hgrow="ALWAYS"/>
+    <Label fx:id="title" textFill="white"/>
+</HBox>

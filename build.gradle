@@ -1,0 +1,67 @@
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building a CLI application.
+    id 'application'
+
+    id 'org.openjfx.javafxplugin' version '0.0.5'
+}
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    // This dependency is used by the application.
+    implementation 'com.google.guava:guava:29.0-jre'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.13'
+
+    // CalendarView
+    implementation 'com.calendarfx:view:11.8.3'
+
+    // Font Awesome
+    implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
+
+    // JFoenix
+    implementation 'com.jfoenix:jfoenix:9.0.10'
+
+    // sql server
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:7.4.1.jre11'
+
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+}
+
+application {
+    // Define the main class for the application.
+    mainClassName = 'com.project.schoolsystem.Main'
+}
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+run {
+    workingDir = new File('build')
+}
+
+javafx {
+    version = "12"
+    modules = [ 'javafx.controls', 'javafx.fxml']
+}
+
+// following jvm arguments are needed to be added in non modular java projects for use with jfoenix
+// see https://stackoverflow.com/questions/58133725/how-to-fix-jvm-options-exports-javafx-11-to-com-jfoenix-on-gradle-idea
+applicationDefaultJvmArgs = ["--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED", \
+        "--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED", \
+        "--add-exports=javafx.base/com.sun.javafx.binding=ALL-UNNAMED", \
+        "--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED", \
+        "--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED", \
+        "--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED" \
+]

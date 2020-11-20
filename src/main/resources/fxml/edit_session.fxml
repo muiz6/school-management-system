@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXButton?>
+<VBox xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        alignment="CENTER"
+        prefHeight="400.0" prefWidth="600.0" spacing="10" stylesheets="/css/theme.css">
+    <TextField promptText="Session Code" disable="true"/>
+    <TextField promptText="Session Title"/>
+    <HBox alignment="CENTER_LEFT">
+        <Label text="Start Date"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <JFXDatePicker/>
+    </HBox>
+    <HBox alignment="CENTER_LEFT">
+        <Label text="End Date"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <JFXDatePicker/>
+    </HBox>
+
+    <HBox>
+        <JFXButton text="Update" styleClass="btn-primary" prefWidth="100"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <JFXButton text="Disable" styleClass="btn-primary" prefWidth="100"/>
+    </HBox>
+
+    <padding>
+        <Insets left="100" right="100"/>
+    </padding>
+</VBox>

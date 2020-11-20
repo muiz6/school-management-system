@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.Cursor?>
+<GridPane fx:id="root" prefHeight="500" prefWidth="800" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.schoolsystem.ui.panel.AdminPanelPage">
+    <stylesheets>
+        <String fx:value="/css/theme.css" />
+    </stylesheets>
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <VBox maxHeight="Infinity" prefWidth="150" styleClass="bg-primary" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <HBox alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="60">
+            <Label text="Organization" styleClass="text-on-primary">
+            <font>
+               <Font name="System Bold" size="16.0" />
+            </font></Label>
+            <padding>
+                <Insets left="10" />
+            </padding>
+        </HBox>
+        <JFXListView fx:id="drawer" styleClass="bg-transparent" VBox.vgrow="ALWAYS" />
+        <HBox alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="60" styleClass="bg-primary-variant">
+            <padding>
+                <Insets right="5.0" />
+            </padding>
+            <Label fx:id="labelUserName" text="Username" styleClass="text-on-primary" onMouseClicked="#onUsernameClicked">
+                <padding>
+                   <Insets left="10.0" />
+                </padding>
+                <font>
+                   <Font size="12.0" />
+                </font>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <JFXButton prefHeight="40" prefWidth="40">
+                <graphic>
+                    <FontAwesomeIconView fx:id="iconCog" fill="white" glyphName="COG" size="16" />
+                </graphic>
+            </JFXButton>
+        </HBox>
+    </VBox>
+    <AnchorPane fx:id="mainView" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+</GridPane>
