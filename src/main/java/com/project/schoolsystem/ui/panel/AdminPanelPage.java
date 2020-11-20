@@ -8,9 +8,11 @@ import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
 import com.project.schoolsystem.data.model.UserModel;
 import com.project.schoolsystem.ui.LoginPage;
-import com.project.schoolsystem.ui.navigation.Navigation;
+import com.project.schoolsystem.ui.navigation.DestinationModel;
 import com.project.schoolsystem.ui.navigation.DrawerAdapter;
+import com.project.schoolsystem.ui.navigation.Navigation;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -24,7 +26,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AdminPanelPage implements Initializable {
-    private final SqlServer server = SqlServer.getInstance();
+    private final SqlServer _server = SqlServer.getInstance();
+    private final DrawerAdapter _drawerAdapter;
     @FXML
     private GridPane root;
     @FXML
@@ -36,17 +39,20 @@ public class AdminPanelPage implements Initializable {
     @FXML
     private FontAwesomeIconView iconCog;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public AdminPanelPage() {
         final Gson gson = new Gson();
         final JsonReader jsonReader = new JsonReader(new InputStreamReader(
                 getClass().getResourceAsStream(R.Navigation.ADMIN)));
         final Navigation navigation = gson.fromJson(jsonReader, Navigation.class);
-        final DrawerAdapter adapter = new DrawerAdapter(navigation);
-        adapter.setupWithListView(drawer);
-        adapter.setUpBody(mainView);
+        _drawerAdapter = new DrawerAdapter(navigation);
+    }
 
-        final UserModel user = server.getLastSignIn();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        _drawerAdapter.setupWithListView(drawer);
+        _drawerAdapter.setUpBody(mainView);
+
+        final UserModel user = _server.getLastSignIn();
         labelUserName.setText(user.getDisplayName());
     }
 
@@ -59,11 +65,19 @@ public class AdminPanelPage implements Initializable {
                 final Scene scene = root.getScene();
                 scene.setRoot(LoginPage.inflate().getRoot());
                 // clear session info
-                server.setLastSignIn(null);
+                _server.setLastSignIn(null);
                 popup.hide();
             }
         });
         popup.setPopupContent(dialog.getRoot());
         popup.show(drawer, JFXPopup.PopupVPosition.BOTTOM, JFXPopup.PopupHPosition.LEFT, 10, -10);
+    }
+
+    public void onSettingClicked(ActionEvent actionEvent) {
+        _drawerAdapter.navigate(new DestinationModel(
+                null,
+                "Settings",
+                R.Fxml.ADMIN_SETTINGS,
+                null));
     }
 }

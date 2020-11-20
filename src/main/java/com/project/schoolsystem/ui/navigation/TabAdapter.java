@@ -20,9 +20,9 @@ public class TabAdapter extends NavigationAdapter {
 
     public void setupHeader(GridPane gridPane) {
         gridPane.getChildren().clear();
-        final List<Destination> destinations = _navigation.getDestinations();
+        final List<DestinationModel> destinations = _navigation.getDestinations();
         for (int i = 0; i < destinations.size(); i++) {
-            final Destination dest = destinations.get(i);
+            final DestinationModel dest = destinations.get(i);
             final Tab tab = Tab.inflate();
             tab.setText(dest.getTitle());
             gridPane.add(tab.getRoot(), i, 0);

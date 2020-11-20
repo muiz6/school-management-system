@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <HBox fx:id="root" xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
-        fx:controller="com.project.schoolsystem.ui.Snackbar"
+        fx:controller="com.project.schoolsystem.ui.snackbar.Snackbar"
         prefHeight="50.0" prefWidth="400.0" stylesheets="/css/theme.css" styleClass="bg-surface"
         style="-fx-border-color: grey; -fx-border-width: 1;">
     <VBox fx:id="indicator" prefWidth="10"/>

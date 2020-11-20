@@ -1,7 +1,10 @@
 package com.project.schoolsystem.data;
 
 import com.project.schoolsystem.R;
-import com.project.schoolsystem.data.model.*;
+import com.project.schoolsystem.data.model.ClassModel;
+import com.project.schoolsystem.data.model.StudentModel;
+import com.project.schoolsystem.data.model.TeacherModel;
+import com.project.schoolsystem.data.model.UserModel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -182,7 +185,7 @@ public class SqlServer {
     }
 
     public UserModel getUser(@Nonnull String userName, @Nonnull String password) {
-        final String query = "EXEC get_user @user_name=?, @password=?;";
+        final String query = "EXEC sp_get_user @user_name=?, @password=?;";
         try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
             final PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, userName);
@@ -219,6 +222,41 @@ public class SqlServer {
     @Nullable
     public UserModel getLastSignIn() {
         return _signedUserModel;
+    }
+
+    public boolean patchUser(UserModel model) {
+        final String query = "EXEC sp_patch_user "
+                + "@user_name=?,"
+                + "@password=?,"
+                + "@display_name=?,"
+                + "@dob=?,"
+                + "@gender=?,"
+                + "@cnic=?,"
+                + "@mobile_no=?,"
+                + "@emergency_contact=?,"
+                + "@qualification=?,"
+                + "@address=?,"
+                + "@active=?;";
+        try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
+            try (final PreparedStatement ps = conn.prepareStatement(query)) {
+                ps.setString(1, model.getUserName());
+                ps.setString(2, model.getPassword());
+                ps.setString(3, model.getDisplayName());
+                ps.setDate(4, model.getDob());
+                ps.setString(5, model.getGender());
+                ps.setString(6, model.getCnic());
+                ps.setString(7, model.getPhoneNumber());
+                ps.setString(8, model.getEmergencyContact());
+                ps.setString(9, model.getQualification());
+                ps.setString(10, model.getAddress());
+                ps.setBoolean(11, model.isActive());
+                ps.execute();
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void setLastSignIn(@Nullable UserModel model) {

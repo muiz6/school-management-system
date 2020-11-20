@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
 import com.project.schoolsystem.data.model.UserModel;
+import com.project.schoolsystem.ui.snackbar.Snackbar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

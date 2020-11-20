@@ -10,16 +10,28 @@ import javax.annotation.Nonnull;
 
 public class DrawerAdapter extends NavigationAdapter {
     private final Navigation _navigation;
+    private ListView _listView;
 
     public DrawerAdapter(@Nonnull Navigation navigation) {
         super(navigation);
         _navigation = navigation;
     }
 
+    @Override
+    public void navigate(DestinationModel dest) {
+        super.navigate(dest);
+        // clear selection in List view as this method is used to navigate
+        // to an undefined destination
+        if (_listView != null) {
+            _listView.getSelectionModel().clearSelection();
+        }
+    }
+
     public void setupWithListView(ListView listView) {
+        _listView = listView;
         final ObservableList list = listView.getItems();
         list.clear();
-        for (final Destination destination : _navigation.getDestinations()) {
+        for (final DestinationModel destination : _navigation.getDestinations()) {
             final DrawerTile tile = DrawerTile.inflate();
             tile.getIcon().setGlyphName(destination.getGlyphName());
             tile.getTitle().setText(destination.getTitle());

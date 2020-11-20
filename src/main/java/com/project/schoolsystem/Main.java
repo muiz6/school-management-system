@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource(R.Fxml.LOGIN_PAGE));
-        primaryStage.setTitle("Organization");
+        final Parent root = FXMLLoader.load(getClass().getResource(R.Fxml.LOGIN_PAGE));
+        _loadPreferences(primaryStage);
         primaryStage.getIcons().add(new Image(R.Image.ICON));
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinWidth(800);
@@ -23,7 +23,9 @@ public class Main extends Application {
         launch(args);
     }
 
-    private void _loadPreferences() {
-
+    private void _loadPreferences(Stage primaryStage) {
+        final PreferenceProvider pref = PreferenceProvider.getInstance();
+        final PreferenceModel model = pref.load();
+        primaryStage.setTitle(model.getOrganizationTitle());
     }
 }

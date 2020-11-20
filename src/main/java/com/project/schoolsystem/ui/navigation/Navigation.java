@@ -8,7 +8,7 @@ public class Navigation {
     @SerializedName("main_title")
     private String title;
     @SerializedName("destinations")
-    private List<Destination> destinations;
+    private List<DestinationModel> destinations;
 
     public String getTitle() {
         return title;
@@ -18,11 +18,11 @@ public class Navigation {
         this.title = title;
     }
 
-    public List<Destination> getDestinations() {
+    public List<DestinationModel> getDestinations() {
         return destinations;
     }
 
-    public void setDestinations(List<Destination> destinations) {
+    public void setDestinations(List<DestinationModel> destinations) {
         this.destinations = destinations;
     }
 }

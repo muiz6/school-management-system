@@ -22,11 +22,12 @@ public interface R {
         String TEACHER_PAGE = "/fxml/teacher_page.fxml";
         String DIALOG_SIGN_OUT = "/fxml/dialog_sign_out.fxml";
         String TAB = "/fxml/tab.fxml";
+        String ADMIN_SETTINGS = "/fxml/admin_settings.fxml";
+        String TEACHER_SETTINGS = "/fxml/teacher_settings.fxml";
     }
 
     interface Image {
         String ICON = "/icons/icon.png";
-        String ICON_GIF = "/icons/icon.gif";
     }
 
     interface Navigation {

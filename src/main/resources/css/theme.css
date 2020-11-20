@@ -57,6 +57,11 @@
     -fx-text-fill: -color-on-primary;
 }
 
+.btn-secondary {
+    -fx-background-color: -color-secondary;
+    -fx-text-fill: -color-on-secondary;
+}
+
 .text-field-clear {
     -fx-text-box-border: transparent;
     -fx-focus-color: transparent;

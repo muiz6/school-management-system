@@ -1,4 +1,4 @@
-package com.project.schoolsystem.ui;
+package com.project.schoolsystem.ui.snackbar;
 
 import com.project.schoolsystem.R;
 import javafx.fxml.FXML;
