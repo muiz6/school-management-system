@@ -25,10 +25,11 @@
     </rowConstraints>
     <VBox maxHeight="Infinity" prefWidth="150" styleClass="bg-primary" GridPane.columnIndex="0" GridPane.rowIndex="0">
         <HBox alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="60">
-            <Label text="Organization" styleClass="text-on-primary">
-            <font>
-               <Font name="System Bold" size="16.0" />
-            </font></Label>
+            <Label text="Organization" styleClass="text-on-primary" fx:id="labelOrganizationTitle">
+                <font>
+                    <Font name="System Bold" size="16.0"/>
+                </font>
+            </Label>
             <padding>
                 <Insets left="10" />
             </padding>

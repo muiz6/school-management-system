@@ -1,5 +1,6 @@
 package com.project.schoolsystem;
 
+import io.reactivex.functions.Consumer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,8 +25,13 @@ public class Main extends Application {
     }
 
     private void _loadPreferences(Stage primaryStage) {
-        final PreferenceProvider pref = PreferenceProvider.getInstance();
-        final PreferenceModel model = pref.load();
-        primaryStage.setTitle(model.getOrganizationTitle());
+        PreferenceProvider.getInstance().observePreference().subscribe(
+                new Consumer<PreferenceModel>() {
+                    @Override
+                    public void accept(PreferenceModel model) throws Exception {
+                        final String title = model.getOrganizationTitle();
+                        primaryStage.setTitle(title);
+                    }
+                });
     }
 }

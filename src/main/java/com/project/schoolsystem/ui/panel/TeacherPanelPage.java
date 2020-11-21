@@ -4,13 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
+import com.project.schoolsystem.PreferenceModel;
+import com.project.schoolsystem.PreferenceProvider;
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
 import com.project.schoolsystem.data.model.UserModel;
 import com.project.schoolsystem.ui.LoginPage;
-import com.project.schoolsystem.ui.navigation.Navigation;
+import com.project.schoolsystem.ui.navigation.DestinationModel;
 import com.project.schoolsystem.ui.navigation.DrawerAdapter;
+import com.project.schoolsystem.ui.navigation.Navigation;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.reactivex.functions.Consumer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -25,6 +30,9 @@ import java.util.ResourceBundle;
 
 public class TeacherPanelPage implements Initializable {
     private final SqlServer server = SqlServer.getInstance();
+    private final DrawerAdapter _drawerAdapter;
+    @FXML
+    private Label labelOrganizationTitle;
     @FXML
     private GridPane root;
     @FXML
@@ -36,16 +44,20 @@ public class TeacherPanelPage implements Initializable {
     @FXML
     private AnchorPane mainView;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public TeacherPanelPage() {
         final Gson gson = new Gson();
         final JsonReader jsonReader = new JsonReader(new InputStreamReader(
-                getClass().getResourceAsStream(R.Navigation.TEACHER)));
+                getClass().getResourceAsStream(R.Navigation.ADMIN)));
         final Navigation navigation = gson.fromJson(jsonReader, Navigation.class);
-        final DrawerAdapter adapter = new DrawerAdapter(navigation);
-        adapter.setupWithListView(drawer);
-        adapter.setUpBody(mainView);
+        _drawerAdapter = new DrawerAdapter(navigation);
+    }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        _drawerAdapter.setupWithListView(drawer);
+        _drawerAdapter.setUpBody(mainView);
+
+        _initPrefs();
         final UserModel user = server.getLastSignIn();
         labelUserName.setText(user.getDisplayName());
     }
@@ -65,5 +77,24 @@ public class TeacherPanelPage implements Initializable {
         });
         popup.setPopupContent(dialog.getRoot());
         popup.show(drawer, JFXPopup.PopupVPosition.BOTTOM, JFXPopup.PopupHPosition.LEFT, 10, -10);
+    }
+
+    public void onSettingClicked(ActionEvent actionEvent) {
+        _drawerAdapter.navigate(new DestinationModel(
+                null,
+                "Settings",
+                R.Fxml.TEACHER_SETTINGS,
+                null));
+    }
+
+    private void _initPrefs() {
+        PreferenceProvider.getInstance().observePreference().subscribe(
+                new Consumer<PreferenceModel>() {
+                    @Override
+                    public void accept(PreferenceModel model) throws Exception {
+                        final String title = model.getOrganizationTitle();
+                        labelOrganizationTitle.setText(title);
+                    }
+                });
     }
 }

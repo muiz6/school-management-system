@@ -36,6 +36,10 @@ dependencies {
 
     // gson
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // rxjava & rxjavafx
+    implementation "io.reactivex.rxjava2:rxjava:2.2.20"
+    compile 'io.reactivex.rxjava2:rxjavafx:2.2.2'
 }
 
 application {

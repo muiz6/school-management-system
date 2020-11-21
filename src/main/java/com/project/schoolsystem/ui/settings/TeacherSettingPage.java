@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
-import com.project.schoolsystem.PreferenceModel;
 import com.project.schoolsystem.PreferenceProvider;
 import com.project.schoolsystem.data.SqlServer;
 import com.project.schoolsystem.data.model.UserModel;
@@ -24,7 +23,7 @@ import java.sql.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class AdminSettings implements Initializable, Destination {
+public class TeacherSettingPage implements Initializable, Destination {
     private final SqlServer _server = SqlServer.getInstance();
     private final PreferenceProvider _prefProvider = PreferenceProvider.getInstance();
     @FXML
@@ -55,60 +54,14 @@ public class AdminSettings implements Initializable, Destination {
     private TextArea fieldAddress;
     @FXML
     private GridPane root;
-    @FXML
-    private TextField fieldOrganizationTitle;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _initFormContent();
-
-        // init organization settings
-        final PreferenceModel prefModel = _prefProvider.load();
-        fieldOrganizationTitle.setText(prefModel.getOrganizationTitle());
     }
 
     @Override
     public void onArguments(@Nullable Map<String, Object> arguments) {
-    }
-
-    public void onSaveOrganization(ActionEvent actionEvent) {
-        final String title = fieldOrganizationTitle.getText().trim();
-        if (!title.isEmpty()) {
-            final PreferenceModel model = new PreferenceModel(title);
-            if (_prefProvider.save(model)) {
-                final Snackbar snackbar = Snackbar.inflate();
-                snackbar.setStatus(Snackbar.STATUS_SUCCESS);
-                snackbar.setMessage("Organization Settings Saved Successfully");
-                final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-                jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
-            }
-        } else {
-            final Snackbar snackbar = Snackbar.inflate();
-            snackbar.setStatus(Snackbar.STATUS_ERROR);
-            snackbar.setMessage("Please Fill Organization Title Field!");
-            final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-            jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
-        }
-    }
-
-    private void _initFormContent() {
-        final UserModel model = _server.getLastSignIn();
-        if (model != null) {
-            datePickerReg.setValue(model.getRegistrationDate().toLocalDate());
-            fieldName.setText(model.getDisplayName());
-            fieldContact.setText(model.getPhoneNumber());
-            fieldQualification.setText(model.getQualification());
-            fieldAddress.setText(model.getAddress());
-            fieldEmergencyContact.setText(model.getEmergencyContact());
-            datePickerDob.setValue(model.getDob().toLocalDate());
-            fieldUserName.setText(model.getUserName());
-            final String gender = model.getGender();
-            if (UserModel.GENDER_MALE.equals(gender)) {
-                btnRadioMale.setSelected(true);
-            } else if (UserModel.GENDER_FEMALE.equals(gender)) {
-                btnRadioFemale.setSelected(true);
-            }
-        }
     }
 
     public void onSavePassword(ActionEvent actionEvent) {
@@ -160,6 +113,32 @@ public class AdminSettings implements Initializable, Destination {
                 snackbar.setMessage("Changes saved successfully.");
                 final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
                 jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+            } else {
+                final Snackbar snackbar = Snackbar.inflate();
+                snackbar.setStatus(Snackbar.STATUS_ERROR);
+                snackbar.setMessage("Something went wrong!");
+                final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
+                jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+            }
+        }
+    }
+
+    private void _initFormContent() {
+        final UserModel model = _server.getLastSignIn();
+        if (model != null) {
+            datePickerReg.setValue(model.getRegistrationDate().toLocalDate());
+            fieldName.setText(model.getDisplayName());
+            fieldContact.setText(model.getPhoneNumber());
+            fieldQualification.setText(model.getQualification());
+            fieldAddress.setText(model.getAddress());
+            fieldEmergencyContact.setText(model.getEmergencyContact());
+            datePickerDob.setValue(model.getDob().toLocalDate());
+            fieldUserName.setText(model.getUserName());
+            final String gender = model.getGender();
+            if (UserModel.GENDER_MALE.equals(gender)) {
+                btnRadioMale.setSelected(true);
+            } else if (UserModel.GENDER_FEMALE.equals(gender)) {
+                btnRadioFemale.setSelected(true);
             }
         }
     }

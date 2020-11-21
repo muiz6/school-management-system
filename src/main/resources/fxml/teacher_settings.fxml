@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <GridPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="/css/theme.css"
         xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.project.schoolsystem.ui.settings.AdminSettingPage">
+        fx:controller="com.project.schoolsystem.ui.settings.TeacherSettingPage">
     <fx:define>
         <ToggleGroup fx:id="toggleGroupGender"/>
     </fx:define>
@@ -91,17 +91,5 @@
         <PasswordField fx:id="fieldNewPwd" promptText="New Password"/>
         <PasswordField fx:id="fieldConfirmPwd" promptText="Confirm Password"/>
         <JFXButton onAction="#onSavePassword" prefWidth="100" styleClass="btn-secondary" text="Save"/>
-
-        <Region VBox.vgrow="ALWAYS"/>
-        <Label text="Organization Settings">
-            <font>
-                <Font size="13.0" name="System Bold"/>
-            </font>
-        </Label>
-        <HBox>
-            <Label text="Organization Title"/>
-        </HBox>
-        <TextField fx:id="fieldOrganizationTitle"/>
-        <JFXButton onAction="#onSaveOrganization" text="Save" prefWidth="100" styleClass="btn-secondary"/>
     </VBox>
 </GridPane>

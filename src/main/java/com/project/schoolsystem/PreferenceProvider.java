@@ -2,6 +2,8 @@ package com.project.schoolsystem;
 
 
 import com.google.gson.Gson;
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -15,6 +17,7 @@ public class PreferenceProvider {
     private static final String _PREF_PATH = _PREF_ROOT + "preferences.json";
     private static PreferenceProvider _instance;
     private final Gson _gson = new Gson();
+    private final BehaviorSubject<PreferenceModel> _subject = BehaviorSubject.createDefault(load());
 
     private PreferenceProvider() {
         new File(_PREF_ROOT).mkdir();
@@ -31,8 +34,9 @@ public class PreferenceProvider {
         final String prefs = _gson.toJson(model);
         try (final FileWriter writer = new FileWriter(_PREF_PATH)) {
             writer.write(prefs);
+            _subject.onNext(model);
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -49,5 +53,9 @@ public class PreferenceProvider {
             e.printStackTrace();
         }
         return new PreferenceModel();
+    }
+
+    public Observable<PreferenceModel> observePreference() {
+        return _subject;
     }
 }
