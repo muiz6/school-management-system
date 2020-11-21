@@ -58,8 +58,13 @@ public class AdminPanelPage implements Initializable {
         _drawerAdapter.setUpBody(mainView);
 
         _initPrefs();
-        final UserModel user = _server.getLastSignIn();
-        labelUserName.setText(user.getDisplayName());
+        _server.observeLastSignIn()
+                .subscribe(new Consumer<UserModel>() {
+                    @Override
+                    public void accept(UserModel userModel) throws Exception {
+                        labelUserName.setText(userModel.getDisplayName());
+                    }
+                });
     }
 
     public void onUsernameClicked(MouseEvent mouseEvent) {

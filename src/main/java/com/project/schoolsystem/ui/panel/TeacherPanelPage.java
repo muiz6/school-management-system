@@ -29,7 +29,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TeacherPanelPage implements Initializable {
-    private final SqlServer server = SqlServer.getInstance();
+    private final SqlServer _server = SqlServer.getInstance();
     private final DrawerAdapter _drawerAdapter;
     @FXML
     private Label labelOrganizationTitle;
@@ -58,8 +58,13 @@ public class TeacherPanelPage implements Initializable {
         _drawerAdapter.setUpBody(mainView);
 
         _initPrefs();
-        final UserModel user = server.getLastSignIn();
-        labelUserName.setText(user.getDisplayName());
+        _server.observeLastSignIn()
+                .subscribe(new Consumer<UserModel>() {
+                    @Override
+                    public void accept(UserModel userModel) throws Exception {
+                        labelUserName.setText(userModel.getDisplayName());
+                    }
+                });
     }
 
     public void onUsernameClicked(MouseEvent mouseEvent) {
@@ -71,7 +76,7 @@ public class TeacherPanelPage implements Initializable {
                 final Scene scene = root.getScene();
                 scene.setRoot(LoginPage.inflate().getRoot());
                 // clear session info
-                server.setLastSignIn(null);
+                _server.setLastSignIn(null);
                 popup.hide();
             }
         });

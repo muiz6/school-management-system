@@ -5,6 +5,8 @@ import com.project.schoolsystem.data.model.ClassModel;
 import com.project.schoolsystem.data.model.StudentModel;
 import com.project.schoolsystem.data.model.TeacherModel;
 import com.project.schoolsystem.data.model.UserModel;
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,6 +21,7 @@ public class SqlServer {
             + "user="+ R.SQL_USER_NAME +";"
             + "password=" + R.SQL_PASSW + ";";
     private static SqlServer _instance;
+    private final BehaviorSubject<UserModel> _liveSignIn = BehaviorSubject.create();
     private UserModel _signedUserModel;
 
     private SqlServer() {
@@ -207,7 +210,7 @@ public class SqlServer {
                     model.setDob(rs.getDate("dob"));
                     model.setEmergencyContact(rs.getString("emergency_contact"));
                     if (model.getUserName() != null) {
-                        _signedUserModel = model;
+                        setLastSignIn(model);
                         return model;
                     }
                 }
@@ -224,7 +227,15 @@ public class SqlServer {
         return _signedUserModel;
     }
 
-    public boolean patchUser(UserModel model) {
+    public boolean patchSignedUser(@Nonnull UserModel model) {
+        boolean result = patchUser(model);
+        if (result) {
+            _liveSignIn.onNext(model);
+        }
+        return result;
+    }
+
+    public boolean patchUser(@Nonnull UserModel model) {
         final String query = "EXEC sp_patch_user "
                 + "@user_name=?,"
                 + "@password=?,"
@@ -261,6 +272,14 @@ public class SqlServer {
 
     public void setLastSignIn(@Nullable UserModel model) {
         _signedUserModel = model;
+        if (model != null) {
+            _liveSignIn.onNext(model);
+        }
+    }
+
+    @Nonnull
+    public Observable<UserModel> observeLastSignIn() {
+        return _liveSignIn;
     }
 
     public interface OnCompletionCallback<T> {

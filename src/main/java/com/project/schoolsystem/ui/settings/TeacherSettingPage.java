@@ -74,7 +74,7 @@ public class TeacherSettingPage implements Initializable, Destination {
                 final String oldPwd = model.getPassword();
                 if (oldPwd.equals(fieldOldPwd.getText())) {
                     model.setPassword(newPwd);
-                    _server.patchUser(model);
+                    _server.patchSignedUser(model);
                     snackbar.setStatus(Snackbar.STATUS_SUCCESS);
                     snackbar.setMessage("Password changed successfully.");
                 } else {
@@ -107,7 +107,7 @@ public class TeacherSettingPage implements Initializable, Destination {
             } else if (btnRadioFemale.isSelected()) {
                 model.setGender(UserModel.GENDER_FEMALE);
             }
-            if (_server.patchUser(model)) {
+            if (_server.patchSignedUser(model)) {
                 final Snackbar snackbar = Snackbar.inflate();
                 snackbar.setStatus(Snackbar.STATUS_SUCCESS);
                 snackbar.setMessage("Changes saved successfully.");
