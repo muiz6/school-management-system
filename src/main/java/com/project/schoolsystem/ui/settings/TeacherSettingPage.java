@@ -2,13 +2,13 @@ package com.project.schoolsystem.ui.settings;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import com.project.schoolsystem.PreferenceProvider;
 import com.project.schoolsystem.data.SqlServer;
 import com.project.schoolsystem.data.model.UserModel;
 import com.project.schoolsystem.ui.navigation.Destination;
 import com.project.schoolsystem.ui.snackbar.Snackbar;
+import com.project.schoolsystem.ui.snackbar.SnackbarContent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -67,7 +67,7 @@ public class TeacherSettingPage implements Initializable, Destination {
     public void onSavePassword(ActionEvent actionEvent) {
         final String newPwd = fieldNewPwd.getText();
         final String cfmPwd = fieldConfirmPwd.getText();
-        final Snackbar snackbar = Snackbar.inflate();
+        final SnackbarContent snackbarContent = SnackbarContent.inflate();
         if (newPwd.equals(cfmPwd)) {
             if (newPwd.length() >= 5) {
                 final UserModel model = _server.getLastSignIn();
@@ -75,22 +75,17 @@ public class TeacherSettingPage implements Initializable, Destination {
                 if (oldPwd.equals(fieldOldPwd.getText())) {
                     model.setPassword(newPwd);
                     _server.patchSignedUser(model);
-                    snackbar.setStatus(Snackbar.STATUS_SUCCESS);
-                    snackbar.setMessage("Password changed successfully.");
+                    new Snackbar(root).enqueue("Password changed successfully.", Snackbar.STATUS_SUCCESS);
                 } else {
-                    snackbar.setStatus(Snackbar.STATUS_ERROR);
-                    snackbar.setMessage("Password Incorrect!");
+                    new Snackbar(root).enqueue("Password Incorrect!", Snackbar.STATUS_ERROR);
                 }
             } else {
-                snackbar.setStatus(Snackbar.STATUS_ERROR);
-                snackbar.setMessage("Password must be at least 5 characters long!");
+                new Snackbar(root).enqueue("Password must be at least 5 characters long!",
+                        Snackbar.STATUS_ERROR);
             }
         } else {
-            snackbar.setStatus(Snackbar.STATUS_ERROR);
-            snackbar.setMessage("Passwords do not match!");
+            new Snackbar(root).enqueue("Passwords do not match!", Snackbar.STATUS_ERROR);
         }
-        final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-        jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
     }
 
     public void onSaveInfo(ActionEvent actionEvent) {
@@ -108,17 +103,9 @@ public class TeacherSettingPage implements Initializable, Destination {
                 model.setGender(UserModel.GENDER_FEMALE);
             }
             if (_server.patchSignedUser(model)) {
-                final Snackbar snackbar = Snackbar.inflate();
-                snackbar.setStatus(Snackbar.STATUS_SUCCESS);
-                snackbar.setMessage("Changes saved successfully.");
-                final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-                jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+                new Snackbar(root).enqueue("Changes saved successfully.", Snackbar.STATUS_SUCCESS);
             } else {
-                final Snackbar snackbar = Snackbar.inflate();
-                snackbar.setStatus(Snackbar.STATUS_ERROR);
-                snackbar.setMessage("Something went wrong!");
-                final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-                jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+                new Snackbar(root).enqueue("Something went wrong!", Snackbar.STATUS_ERROR);
             }
         }
     }

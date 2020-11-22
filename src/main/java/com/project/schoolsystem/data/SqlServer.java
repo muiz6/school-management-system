@@ -310,6 +310,7 @@ public class SqlServer {
                                 teacher.setCnic(rs.getString("cnic"));
                                 teacher.setRole(rs.getString("user_role"));
                                 teacher.setActive(rs.getBoolean("active"));
+                                teacher.setQualification(rs.getString("qualification"));
                                 teacherList.add(teacher);
                             }
                             emitter.onSuccess(teacherList);
@@ -347,6 +348,7 @@ public class SqlServer {
                                 teacher.setCnic(rs.getString("cnic"));
                                 teacher.setRole(rs.getString("user_role"));
                                 teacher.setActive(rs.getBoolean("active"));
+                                teacher.setQualification(rs.getString("qualification"));
                                 teacherList.add(teacher);
                             }
                             emitter.onSuccess(teacherList);
@@ -359,39 +361,80 @@ public class SqlServer {
         });
     }
 
-    public Single<UserModel> getUser(String userName) {
-        return Single.create(new SingleOnSubscribe<UserModel>() {
+    public Single<Boolean> postUser(UserModel model) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
             @Override
-            public void subscribe(@NonNull SingleEmitter<UserModel> emitter) throws Exception {
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
                 try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
-                    final String query = "EXEC sp_get_user_by_user_name ?;";
+                    final String query = "EXEC sp_post_user "
+                            + "@user_name=?,"
+                            + "@password=?,"
+                            + "@auth_role=?,"
+                            + "@display_name=?,"
+                            + "@dob=?,"
+                            + "@gender=?,"
+                            + "@cnic=?,"
+                            + "@mobile_no=?,"
+                            + "@emergency_contact=?,"
+                            + "@qualification=?,"
+                            + "@address=?;";
                     try (final PreparedStatement ps = conn.prepareStatement(query)) {
-                        ps.setString(1, userName);
-                        try (final ResultSet rs = ps.executeQuery()) {
-                            if (rs.next()) {
-                                final UserModel user = new UserModel();
-                                user.setUserName(rs.getString("user_name"));
-                                user.setPassword(rs.getString("password"));
-                                user.setRegistrationDate(rs.getDate("registration_date"));
-                                user.setDisplayName(rs.getString("display_name"));
-                                user.setDob(rs.getDate("dob"));
-                                user.setGender(rs.getString("gender"));
-                                user.setPhoneNumber(rs.getString("mobile_no"));
-                                user.setEmergencyContact(rs.getString("emergency_contact"));
-                                user.setAddress(rs.getString("address"));
-                                user.setCnic(rs.getString("cnic"));
-                                user.setRole(rs.getString("user_role"));
-                                user.setActive(rs.getBoolean("active"));
-                                emitter.onSuccess(user);
-                            }
-                        }
+                        ps.setString(1, model.getUserName());
+                        ps.setString(2, model.getPassword());
+                        ps.setString(3, model.getRole());
+                        ps.setString(4, model.getDisplayName());
+                        ps.setDate(5, model.getDob());
+                        ps.setString(6, model.getGender());
+                        ps.setString(7, model.getCnic());
+                        ps.setString(8, model.getPhoneNumber());
+                        ps.setString(9, model.getEmergencyContact());
+                        ps.setString(10, model.getQualification());
+                        ps.setString(11, model.getAddress());
+                        ps.execute();
+                        emitter.onSuccess(true);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    emitter.onError(e);
                 }
             }
         });
     }
+
+    // public Single<UserModel> getUser(String userName) {
+    //     return Single.create(new SingleOnSubscribe<UserModel>() {
+    //         @Override
+    //         public void subscribe(@NonNull SingleEmitter<UserModel> emitter) throws Exception {
+    //             try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
+    //                 final String query = "EXEC sp_get_user_by_user_name ?;";
+    //                 try (final PreparedStatement ps = conn.prepareStatement(query)) {
+    //                     ps.setString(1, userName);
+    //                     try (final ResultSet rs = ps.executeQuery()) {
+    //                         if (rs.next()) {
+    //                             final UserModel user = new UserModel();
+    //                             user.setUserName(rs.getString("user_name"));
+    //                             user.setPassword(rs.getString("password"));
+    //                             user.setRegistrationDate(rs.getDate("registration_date"));
+    //                             user.setDisplayName(rs.getString("display_name"));
+    //                             user.setDob(rs.getDate("dob"));
+    //                             user.setGender(rs.getString("gender"));
+    //                             user.setPhoneNumber(rs.getString("mobile_no"));
+    //                             user.setEmergencyContact(rs.getString("emergency_contact"));
+    //                             user.setAddress(rs.getString("address"));
+    //                             user.setCnic(rs.getString("cnic"));
+    //                             user.setRole(rs.getString("user_role"));
+    //                             user.setActive(rs.getBoolean("active"));
+    //                             user.setQualification(rs.getString("qualification"));
+    //                             emitter.onSuccess(user);
+    //                         }
+    //                     }
+    //                 }
+    //             } catch (SQLException e) {
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     });
+    // }
 
     public interface OnCompletionCallback<T> {
         void onResult(boolean success, T result);

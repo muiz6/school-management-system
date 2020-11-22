@@ -10,14 +10,17 @@ CREATE TABLE users(
 	user_role VARCHAR(10) FOREIGN KEY REFERENCES auth_roles(id),
 	display_name NVARCHAR(25) NOT NULL,
 	dob DATE NOT NULL,
-	gender VARCHAR(10) NOT NULL CHECK ,
+	gender VARCHAR(10) NOT NULL,
 	cnic CHAR(13) NOT NULL,
 	mobile_no CHAR(12) NOT NULL,
 	emergency_contact CHAR(12) NOT NULL,
 	qualification NVARCHAR(25),
 	registration_date DATE NOT NULL DEFAULT GETDATE(),
-	active BIT NOT NULL DEFAULT 1,
+	active BIT NOT NULL DEFAULT 1
 );
+ALTER TABLE users ADD CONSTRAINT chk_gender CHECK (gender IN ('male', 'female'));
+
+
 
 -- Create session entity
 CREATE TABLE session_table(
@@ -50,7 +53,7 @@ CREATE TABLE student(
 	PRIMARY KEY (session_code, department_code, roll_no)
 );
 
--- Create session enitity
+-- Create session entity
 CREATE TABLE school_system.dbo.term(
 	id INT PRIMARY KEY IDENTITY(1, 1),
 	title NVARCHAR(25) NOT NULL,
@@ -175,6 +178,7 @@ BEGIN
 	cnic,
 	mobile_no,
 	emergency_contact,
+	qualification,
 	address)
 	VALUES(
 	@user_name,
@@ -186,6 +190,7 @@ BEGIN
 	@cnic,
 	@mobile_no,
 	@emergency_contact,
+	@qualification,
 	@address)
 END;
 
@@ -348,6 +353,8 @@ END;
  * Primary Key
  * Not Null constraint
  * Default constraint
+ * Check constaint
+ * Alter table
  * Insert row
  * Update row
  * Where with Like clause

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <HBox fx:id="root" xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
-        fx:controller="com.project.schoolsystem.ui.snackbar.Snackbar"
+        fx:controller="com.project.schoolsystem.ui.snackbar.SnackbarContent"
         prefHeight="50.0" prefWidth="400.0" stylesheets="/css/theme.css" styleClass="bg-surface"
         style="-fx-border-color: grey; -fx-border-width: 1;">
     <VBox fx:id="indicator" prefWidth="10"/>

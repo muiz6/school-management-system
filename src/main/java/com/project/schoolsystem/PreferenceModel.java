@@ -1,15 +1,16 @@
 package com.project.schoolsystem;
 
-import javax.annotation.Nullable;
+import io.reactivex.annotations.Nullable;
 
 public class PreferenceModel {
     private String organizationTitle = "Organization";
+    private String defaultTeacherPwd = "12345";
 
-    public PreferenceModel() {
-    }
+    public PreferenceModel() {}
 
-    public PreferenceModel(String organizationTitle) {
+    public PreferenceModel(@Nullable String organizationTitle, @Nullable String defaultTeacherPwd) {
         this.organizationTitle = organizationTitle;
+        this.defaultTeacherPwd = defaultTeacherPwd;
     }
 
     @Nullable
@@ -19,5 +20,14 @@ public class PreferenceModel {
 
     public void setOrganizationTitle(@Nullable String organizationTitle) {
         this.organizationTitle = organizationTitle;
+    }
+
+    @Nullable
+    public String getDefaultTeacherPwd() {
+        return defaultTeacherPwd;
+    }
+
+    public void setDefaultTeacherPwd(@Nullable String defaultTeacherPwd) {
+        this.defaultTeacherPwd = defaultTeacherPwd;
     }
 }

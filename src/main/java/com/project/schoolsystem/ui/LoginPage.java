@@ -1,7 +1,6 @@
 package com.project.schoolsystem.ui;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSnackbar;
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
 import com.project.schoolsystem.data.model.UserModel;
@@ -37,16 +36,11 @@ public class LoginPage implements Initializable {
         server.connect(new SqlServer.OnCompletionCallback<String>() {
             @Override
             public void onResult(boolean success, String result) {
-                final JFXSnackbar bar = new JFXSnackbar(root);
-                final Snackbar snackbar = Snackbar.inflate();
                 if (success) {
-                    snackbar.setStatus(Snackbar.STATUS_SUCCESS);
-                    snackbar.setMessage("Connected to Database");
+                    new Snackbar(root).enqueue("Connected to Database", Snackbar.STATUS_SUCCESS);
                 } else {
-                    snackbar.setStatus(Snackbar.STATUS_ERROR);
-                    snackbar.setMessage("Could not connect to Database!");
+                    new Snackbar(root).enqueue("Could not connect to Database!", Snackbar.STATUS_ERROR);
                 }
-                bar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
             }
         });
     }
@@ -90,11 +84,7 @@ public class LoginPage implements Initializable {
                 e.printStackTrace();
             }
         } else {
-            final JFXSnackbar bar = new JFXSnackbar(root);
-            final Snackbar snackbar = Snackbar.inflate();
-            snackbar.setStatus(Snackbar.STATUS_ERROR);
-            snackbar.setMessage("Sign In Failed!");
-            bar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+            new Snackbar(root).enqueue("Sign In Failed!", Snackbar.STATUS_ERROR);
         }
     }
 }

@@ -2,7 +2,6 @@ package com.project.schoolsystem.ui.settings;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import com.project.schoolsystem.PreferenceModel;
 import com.project.schoolsystem.PreferenceProvider;
@@ -10,6 +9,7 @@ import com.project.schoolsystem.data.SqlServer;
 import com.project.schoolsystem.data.model.UserModel;
 import com.project.schoolsystem.ui.navigation.Destination;
 import com.project.schoolsystem.ui.snackbar.Snackbar;
+import com.project.schoolsystem.ui.snackbar.SnackbarContent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 public class AdminSettingPage implements Initializable, Destination {
     private final SqlServer _server = SqlServer.getInstance();
     private final PreferenceProvider _prefProvider = PreferenceProvider.getInstance();
+    @FXML
+    private JFXTextField fieldDefaultTeacherPwd;
     @FXML
     private JFXRadioButton btnRadioFemale;
     @FXML
@@ -65,36 +67,29 @@ public class AdminSettingPage implements Initializable, Destination {
         // init organization settings
         final PreferenceModel prefModel = _prefProvider.load();
         fieldOrganizationTitle.setText(prefModel.getOrganizationTitle());
+        fieldDefaultTeacherPwd.setText(prefModel.getDefaultTeacherPwd());
     }
 
     @Override
-    public void onArguments(@Nullable Map<String, Object> arguments) {
-    }
+    public void onArguments(@Nullable Map<String, Object> arguments) {}
 
     public void onSaveOrganization(ActionEvent actionEvent) {
         final String title = fieldOrganizationTitle.getText().trim();
         if (!title.isEmpty()) {
-            final PreferenceModel model = new PreferenceModel(title);
+            final PreferenceModel model = _prefProvider.load();
+            model.setOrganizationTitle(fieldOrganizationTitle.getText());
             if (_prefProvider.save(model)) {
-                final Snackbar snackbar = Snackbar.inflate();
-                snackbar.setStatus(Snackbar.STATUS_SUCCESS);
-                snackbar.setMessage("Organization Settings Saved Successfully");
-                final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-                jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+                new Snackbar(root).enqueue("Organization Settings Saved Successfully", Snackbar.STATUS_SUCCESS);
             }
         } else {
-            final Snackbar snackbar = Snackbar.inflate();
-            snackbar.setStatus(Snackbar.STATUS_ERROR);
-            snackbar.setMessage("Please Fill Organization Title Field!");
-            final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-            jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+            new Snackbar(root).enqueue("Please Fill Organization Title Field!", Snackbar.STATUS_ERROR);
         }
     }
 
     public void onSavePassword(ActionEvent actionEvent) {
         final String newPwd = fieldNewPwd.getText();
         final String cfmPwd = fieldConfirmPwd.getText();
-        final Snackbar snackbar = Snackbar.inflate();
+        final SnackbarContent snackbarContent = SnackbarContent.inflate();
         if (newPwd.equals(cfmPwd)) {
             if (newPwd.length() >= 5) {
                 final UserModel model = _server.getLastSignIn();
@@ -102,22 +97,17 @@ public class AdminSettingPage implements Initializable, Destination {
                 if (oldPwd.equals(fieldOldPwd.getText())) {
                     model.setPassword(newPwd);
                     _server.patchSignedUser(model);
-                    snackbar.setStatus(Snackbar.STATUS_SUCCESS);
-                    snackbar.setMessage("Password changed successfully.");
+                    new Snackbar(root).enqueue("Password changed successfully.", Snackbar.STATUS_SUCCESS);
                 } else {
-                    snackbar.setStatus(Snackbar.STATUS_ERROR);
-                    snackbar.setMessage("Password Incorrect!");
+                    new Snackbar(root).enqueue("Password Incorrect!", Snackbar.STATUS_ERROR);
                 }
             } else {
-                snackbar.setStatus(Snackbar.STATUS_ERROR);
-                snackbar.setMessage("Password must be at least 5 characters long!");
+                new Snackbar(root).enqueue("Password must be at least 5 characters long!",
+                        Snackbar.STATUS_ERROR);
             }
         } else {
-            snackbar.setStatus(Snackbar.STATUS_ERROR);
-            snackbar.setMessage("Passwords do not match!");
+            new Snackbar(root).enqueue("Passwords do not match!", Snackbar.STATUS_ERROR);
         }
-        final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-        jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
     }
 
     public void onSaveInfo(ActionEvent actionEvent) {
@@ -135,18 +125,24 @@ public class AdminSettingPage implements Initializable, Destination {
                 model.setGender(UserModel.GENDER_FEMALE);
             }
             if (_server.patchSignedUser(model)) {
-                final Snackbar snackbar = Snackbar.inflate();
-                snackbar.setStatus(Snackbar.STATUS_SUCCESS);
-                snackbar.setMessage("Changes saved successfully.");
-                final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-                jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+                new Snackbar(root).enqueue("Changes saved successfully.", Snackbar.STATUS_SUCCESS);
             } else {
-                final Snackbar snackbar = Snackbar.inflate();
-                snackbar.setStatus(Snackbar.STATUS_ERROR);
-                snackbar.setMessage("Something went wrong!");
-                final JFXSnackbar jfxSnackbar = new JFXSnackbar(root);
-                jfxSnackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbar.getRoot()));
+                new Snackbar(root).enqueue("Something went wrong!", Snackbar.STATUS_ERROR);
             }
+        }
+    }
+
+    public void onSaveAdminSettings(ActionEvent actionEvent) {
+        final String title = fieldDefaultTeacherPwd.getText().trim();
+        if (!title.isEmpty()) {
+            final PreferenceModel model = _prefProvider.load();
+            model.setDefaultTeacherPwd(fieldDefaultTeacherPwd.getText());
+            if (_prefProvider.save(model)) {
+                new Snackbar(root).enqueue("Administrator Settings Saved Successfully",
+                        Snackbar.STATUS_SUCCESS);
+            }
+        } else {
+            new Snackbar(root).enqueue("Please Fill Field!", Snackbar.STATUS_ERROR);
         }
     }
 

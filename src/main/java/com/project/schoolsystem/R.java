@@ -26,6 +26,7 @@ public interface R {
         String TEACHER_SETTINGS = "/fxml/teacher_settings.fxml";
         String MANAGE_TEACHERS = "/fxml/manage_teachers.fxml";
         String PERSON_TILE = "/fxml/tile_person.fxml";
+        String ALERT = "/fxml/alert.fxml";
     }
 
     interface Image {
@@ -36,5 +37,16 @@ public interface R {
         String ADMIN = "/json/navigation_admin.json";
         String SESSION = "/json/tab_nav_session.json";
         String MANAGE_TEACHERS = "/json/tab_nav_mng_teachers.json";
+    }
+
+    interface Id {
+        String DEST_EDIT_TEACHER = "dest_edit_teacher";
+    }
+
+    interface NavArgs {
+        /**
+         * key for {@link com.project.schoolsystem.data.model.UserModel} argument
+         */
+        String USER_MODEL = "user_model";
     }
 }

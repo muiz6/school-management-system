@@ -1,5 +1,6 @@
 package com.project.schoolsystem.ui.navigation;
 
+import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -7,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public abstract class NavigationAdapter {
@@ -94,7 +96,19 @@ public abstract class NavigationAdapter {
         return _selectedIndex;
     }
 
-    // public void navigate(@NonNull String destinationId, @Nullable Map<String, Object> arguments) {
-    //     _navigation
-    // }
+    public void navigate(@NonNull String destinationId, @Nullable Map<String, Object> arguments) {
+        DestinationModel reqDestination = null;
+        List<DestinationModel> destinations = _navigation.getDestinations();
+        for (int i = 0; i < destinations.size(); i++) {
+            final DestinationModel dest = destinations.get(i);
+            if (destinationId.equals(dest.getId())) {
+                reqDestination = dest;
+                _selectedIndex = i;
+                break;
+            }
+        }
+        if (reqDestination != null) {
+            navigate(reqDestination, arguments);
+        }
+    }
 }

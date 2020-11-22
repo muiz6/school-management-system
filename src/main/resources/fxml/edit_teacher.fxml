@@ -4,7 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns="http://javafx.com/javafx"
+<VBox fx:id="root" xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="com.project.schoolsystem.ui.manageteachers.EditTeacherPage"
         prefHeight="400.0" prefWidth="600.0" alignment="CENTER" spacing="10" stylesheets="/css/theme.css">
@@ -15,7 +15,7 @@
         </columnConstraints>
 
         <Label text="User Name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <JFXTextField disable="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <JFXTextField fx:id="fieldUserName" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
         <Label text="Registration Date" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <JFXDatePicker fx:id="datePickerReg" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="Infinity"
@@ -41,17 +41,20 @@
         <Label text="Emergency Contact" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
         <JFXTextField fx:id="fieldEmergencyContact" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
-        <Label text="Qualification" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-        <JFXTextField fx:id="fieldQualification" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+        <Label text="CNIC" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldCnic" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
 
-        <Label text="Address" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
-        <TextArea fx:id="fieldAddress" GridPane.rowIndex="9" GridPane.columnIndex="1"
+        <Label text="Qualification" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldQualification" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+        <Label text="Address" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+        <TextArea fx:id="fieldAddress" GridPane.rowIndex="10" GridPane.columnIndex="1"
                 prefWidth="100" prefRowCount="2"/>
     </GridPane>
     <HBox spacing="10">
-        <JFXButton text="Save" prefWidth="100" styleClass="btn-secondary"/>
+        <JFXButton text="Save" prefWidth="100" styleClass="btn-secondary" onAction="#onSave"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <JFXButton text="Deactivate" prefWidth="100" styleClass="btn-secondary"/>
+        <JFXButton text="Deactivate" prefWidth="100" styleClass="btn-secondary" onAction="#onDeactivate"/>
     </HBox>
 
     <padding>

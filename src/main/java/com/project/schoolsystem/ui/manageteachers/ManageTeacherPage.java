@@ -19,6 +19,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -27,6 +28,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -34,6 +36,7 @@ import java.util.ResourceBundle;
 public class ManageTeacherPage implements Initializable, Destination {
     private final SqlServer _server = SqlServer.getInstance();
     private final TabAdapter _navAdapter;
+    private List<UserModel> _currentResult;
     @FXML
     private TextField fieldSearch;
     @FXML
@@ -59,20 +62,22 @@ public class ManageTeacherPage implements Initializable, Destination {
     }
 
     @Override
-    public void onArguments(@Nullable Map<String, Object> arguments) {
-    }
+    public void onArguments(@Nullable Map<String, Object> arguments) {}
 
     private void _initTeacherList() {
-        // teacherListV.getSelectionModel()
-        //         .selectedIndexProperty()
-        //         .addListener(new ChangeListener<Number>() {
-        //             @Override
-        //             public void changed(ObservableValue<? extends Number> observable,
-        //                     Number oldValue,
-        //                     Number newValue) {
-        //                 _navAdapter.navigate();
-        //             }
-        //         });
+        final MultipleSelectionModel selectModel = teacherListV.getSelectionModel();
+        selectModel.selectedIndexProperty()
+                .addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable,
+                            Number oldValue,
+                            Number newValue) {
+                        final Map<String, Object> arguments = new HashMap<>();
+                        arguments.put(R.NavArgs.USER_MODEL, _currentResult.get(newValue.intValue()));
+                        _navAdapter.navigate(R.Id.DEST_EDIT_TEACHER, arguments);
+                        selectModel.clearSelection();
+                    }
+                });
 
         _updateTeacherListViewAll();
 
@@ -106,12 +111,12 @@ public class ManageTeacherPage implements Initializable, Destination {
 
     private class _MySingleObserver implements SingleObserver<List<UserModel>> {
         @Override
-        public void onSubscribe(@NonNull Disposable d) {
-        }
+        public void onSubscribe(@NonNull Disposable d) {}
 
         @Override
         public void onSuccess(@NonNull List<UserModel> teachers) {
             teacherListV.getItems().clear();
+            _currentResult = teachers;
             for (final UserModel teacher : teachers) {
                 final PersonTile tile = PersonTile.inflate();
                 tile.getLabelName().setText(teacher.getDisplayName());
@@ -121,7 +126,6 @@ public class ManageTeacherPage implements Initializable, Destination {
         }
 
         @Override
-        public void onError(@NonNull Throwable e) {
-        }
+        public void onError(@NonNull Throwable e) {}
     }
 }
