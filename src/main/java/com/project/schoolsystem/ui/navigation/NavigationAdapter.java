@@ -1,11 +1,11 @@
 package com.project.schoolsystem.ui.navigation;
 
+import io.reactivex.annotations.Nullable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Map;
 
@@ -93,4 +93,8 @@ public abstract class NavigationAdapter {
     public int getSelectedIndex() {
         return _selectedIndex;
     }
+
+    // public void navigate(@NonNull String destinationId, @Nullable Map<String, Object> arguments) {
+    //     _navigation
+    // }
 }

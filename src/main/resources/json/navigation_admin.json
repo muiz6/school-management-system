@@ -11,7 +11,7 @@
       "id": "dest_teacher",
       "glyphName": "GROUP",
       "title": "Teachers",
-      "fxmlPath": "/fxml/TeacherRegistrationForm.fxml"
+      "fxmlPath": "/fxml/manage_teachers.fxml"
     },
     {
       "id": "dest_class",

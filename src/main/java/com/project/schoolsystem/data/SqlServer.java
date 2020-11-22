@@ -6,6 +6,10 @@ import com.project.schoolsystem.data.model.StudentModel;
 import com.project.schoolsystem.data.model.TeacherModel;
 import com.project.schoolsystem.data.model.UserModel;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.subjects.BehaviorSubject;
 
 import javax.annotation.Nonnull;
@@ -187,13 +191,13 @@ public class SqlServer {
         }
     }
 
-    public UserModel getUser(@Nonnull String userName, @Nonnull String password) {
+    public UserModel getSignedUser(@Nonnull String userName, @Nonnull String password) {
         final String query = "EXEC sp_get_user @user_name=?, @password=?;";
         try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
-            final PreparedStatement ps = conn.prepareStatement(query)) {
+             final PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, userName);
             ps.setString(2, password);
-            try (final ResultSet rs = ps.executeQuery()){
+            try (final ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     final UserModel model = new UserModel();
                     model.setUserName(rs.getString("user_name"));
@@ -280,6 +284,113 @@ public class SqlServer {
     @Nonnull
     public Observable<UserModel> observeLastSignIn() {
         return _liveSignIn;
+    }
+
+    @Nonnull
+    public Single<List<UserModel>> getTeachers() {
+        return Single.create(new SingleOnSubscribe<List<UserModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<UserModel>> emitter) throws Exception {
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
+                    final String query = "EXEC sp_get_teachers;";
+                    try (final PreparedStatement ps = conn.prepareStatement(query)) {
+                        try (final ResultSet rs = ps.executeQuery()) {
+                            final List<UserModel> teacherList = new ArrayList<>();
+                            while (rs.next()) {
+                                final UserModel teacher = new UserModel();
+                                teacher.setUserName(rs.getString("user_name"));
+                                teacher.setPassword(rs.getString("password"));
+                                teacher.setRegistrationDate(rs.getDate("registration_date"));
+                                teacher.setDisplayName(rs.getString("display_name"));
+                                teacher.setDob(rs.getDate("dob"));
+                                teacher.setGender(rs.getString("gender"));
+                                teacher.setPhoneNumber(rs.getString("mobile_no"));
+                                teacher.setEmergencyContact(rs.getString("emergency_contact"));
+                                teacher.setAddress(rs.getString("address"));
+                                teacher.setCnic(rs.getString("cnic"));
+                                teacher.setRole(rs.getString("user_role"));
+                                teacher.setActive(rs.getBoolean("active"));
+                                teacherList.add(teacher);
+                            }
+                            emitter.onSuccess(teacherList);
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @NonNull
+    public Single<List<UserModel>> getTeacherBySearch(@Nonnull String searchTerm) {
+        return Single.create(new SingleOnSubscribe<List<UserModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<UserModel>> emitter) throws Exception {
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
+                    final String query = "EXEC sp_get_teachers_by_search @query=?;";
+                    try (final PreparedStatement cs = conn.prepareStatement(query)) {
+                        cs.setString(1, searchTerm);
+                        try (final ResultSet rs = cs.executeQuery()) {
+                            final List<UserModel> teacherList = new ArrayList<>();
+                            while (rs.next()) {
+                                final UserModel teacher = new UserModel();
+                                teacher.setUserName(rs.getString("user_name"));
+                                teacher.setPassword(rs.getString("password"));
+                                teacher.setRegistrationDate(rs.getDate("registration_date"));
+                                teacher.setDisplayName(rs.getString("display_name"));
+                                teacher.setDob(rs.getDate("dob"));
+                                teacher.setGender(rs.getString("gender"));
+                                teacher.setPhoneNumber(rs.getString("mobile_no"));
+                                teacher.setEmergencyContact(rs.getString("emergency_contact"));
+                                teacher.setAddress(rs.getString("address"));
+                                teacher.setCnic(rs.getString("cnic"));
+                                teacher.setRole(rs.getString("user_role"));
+                                teacher.setActive(rs.getBoolean("active"));
+                                teacherList.add(teacher);
+                            }
+                            emitter.onSuccess(teacherList);
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public Single<UserModel> getUser(String userName) {
+        return Single.create(new SingleOnSubscribe<UserModel>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<UserModel> emitter) throws Exception {
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
+                    final String query = "EXEC sp_get_user_by_user_name ?;";
+                    try (final PreparedStatement ps = conn.prepareStatement(query)) {
+                        ps.setString(1, userName);
+                        try (final ResultSet rs = ps.executeQuery()) {
+                            if (rs.next()) {
+                                final UserModel user = new UserModel();
+                                user.setUserName(rs.getString("user_name"));
+                                user.setPassword(rs.getString("password"));
+                                user.setRegistrationDate(rs.getDate("registration_date"));
+                                user.setDisplayName(rs.getString("display_name"));
+                                user.setDob(rs.getDate("dob"));
+                                user.setGender(rs.getString("gender"));
+                                user.setPhoneNumber(rs.getString("mobile_no"));
+                                user.setEmergencyContact(rs.getString("emergency_contact"));
+                                user.setAddress(rs.getString("address"));
+                                user.setCnic(rs.getString("cnic"));
+                                user.setRole(rs.getString("user_role"));
+                                user.setActive(rs.getBoolean("active"));
+                                emitter.onSuccess(user);
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public interface OnCompletionCallback<T> {

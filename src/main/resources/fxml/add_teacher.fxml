@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.project.schoolsystem.ui.manageteachers.AddTeacherPage"
+        spacing="15" alignment="CENTER" stylesheets="/css/theme.css">
+    <fx:define>
+        <ToggleGroup fx:id="toggleGroupGender"/>
+    </fx:define>
+
+    <JFXTextField promptText="Username"/>
+    <JFXTextField promptText="Password"/>
+    <JFXTextField promptText="Name"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Date of Birth:"/>
+        <JFXDatePicker HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+    </HBox>
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints fillWidth="true" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Gender:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <JFXRadioButton text="Male" GridPane.rowIndex="0" GridPane.columnIndex="1" toggleGroup="$toggleGroupGender"/>
+        <JFXRadioButton text="Female" GridPane.rowIndex="0" GridPane.columnIndex="2" toggleGroup="$toggleGroupGender"/>
+    </GridPane>
+    <JFXTextField promptText="CNIC"/>
+    <JFXTextField promptText="Contact"/>
+    <JFXTextField promptText="Emergency Contact"/>
+    <JFXTextField promptText="Qualification"/>
+    <JFXTextArea promptText="Address" prefRowCount="2"/>
+    <JFXButton text="Add" styleClass="btn-secondary" prefWidth="100"/>
+    <padding>
+        <Insets left="50" right="50" top="15" bottom="15"/>
+    </padding>
+</VBox>

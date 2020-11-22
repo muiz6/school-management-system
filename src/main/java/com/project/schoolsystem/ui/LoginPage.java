@@ -74,7 +74,7 @@ public class LoginPage implements Initializable {
     private void signIn() {
         final String userName = fieldUserName.getText();
         final String password = fieldPwd.getText();
-        final UserModel model = server.getUser(userName, password);
+        final UserModel model = server.getSignedUser(userName, password);
         if (model != null) {
             try {
                 final String role = model.getRole();
