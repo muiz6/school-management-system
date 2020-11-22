@@ -10,7 +10,7 @@ CREATE TABLE users(
 	user_role VARCHAR(10) FOREIGN KEY REFERENCES auth_roles(id),
 	display_name NVARCHAR(25) NOT NULL,
 	dob DATE NOT NULL,
-	gender VARCHAR(10) NOT NULL,
+	gender VARCHAR(10) NOT NULL CHECK ,
 	cnic CHAR(13) NOT NULL,
 	mobile_no CHAR(12) NOT NULL,
 	emergency_contact CHAR(12) NOT NULL,
@@ -144,6 +144,51 @@ BEGIN
 	SELECT * FROM users WHERE user_name=@user_name AND password=@password;
 END;
 
+CREATE PROCEDURE sp_get_user_by_user_name
+@user_name VARCHAR(15)
+AS
+BEGIN
+	SELECT * FROM users WHERE user_name=@user_name;
+END;
+
+CREATE PROCEDURE sp_post_user
+@user_name VARCHAR(15),
+@password VARCHAR(15),
+@auth_role VARCHAR(10),
+@display_name VARCHAR(25),
+@dob DATE,
+@gender VARCHAR(10),
+@cnic CHAR(13),
+@mobile_no CHAR(12),
+@emergency_contact CHAR(12),
+@qualification NVARCHAR(25),
+@address VARCHAR(100)
+AS
+BEGIN
+	INSERT INTO users(
+	user_name,
+	password,
+	user_role,
+	display_name,
+	dob,
+	gender,
+	cnic,
+	mobile_no,
+	emergency_contact,
+	address)
+	VALUES(
+	@user_name,
+	@password,
+	@auth_role,
+	@display_name,
+	@dob,
+	@gender,
+	@cnic,
+	@mobile_no,
+	@emergency_contact,
+	@address)
+END;
+
 CREATE PROCEDURE sp_patch_user
 @user_name VARCHAR(15),
 @password VARCHAR(15) = NULL,
@@ -231,83 +276,81 @@ BEGIN
 	END
 END;
 
-CREATE PROCEDURE sp_post_session
-@code VARCHAR(5),
-@title VARCHAR(MAX),
-@start_date DATE,
-@end_date DATE
+CREATE PROCEDURE sp_get_teachers
 AS
 BEGIN
-	INSERT INTO session_table
-	VALUES
-	(@code, @title, @start_date, @end_date)
+	SELECT * FROM users 
+	WHERE user_role = 'teacher' AND active=1;
 END;
 
-CREATE PROCEDURE sp_post_department
+CREATE PROCEDURE sp_get_teachers_by_search
+@query VARCHAR(20)
 AS
 BEGIN
-	
+	SELECT * FROM users 
+	WHERE user_role = 'teacher' 
+	AND active = 1 
+	AND display_name LIKE CONCAT('%', @query, '%')
+	OR user_name LIKE CONCAT('%', @query, '%')
 END;
 
-CREATE PROCEDURE sp_post_student
-@department_code VARCHAR(5),
-@session_code VARCHAR(5),
-@name VARCHAR(25),
-@father_name VARCHAR(25),
-@mobile_no VARCHAR(12),
-@emergency_contact VARCHAR(12),
-@registeration_date DATE,
-@dob DATE,
-@address VARCHAR(MAX),
-@gender VARCHAR(10),
-@active BIT
-AS
-BEGIN
-	DECLARE @max_roll_no INT
-	
-	SELECT @max_roll_no=MAX(roll_no) 
-	FROM student 
-	WHERE department_code=@department_code
-	AND session_code=@session_code
-			
-	INSERT INTO student
-	VALUES(
-	@department_code,
-	@session_code,
-	@roll_no + 1,
-	@name,
-	@father_name)
-END;
+--CREATE PROCEDURE sp_post_session
+--@code VARCHAR(5),
+--@title VARCHAR(MAX),
+--@start_date DATE,
+--@end_date DATE
+--AS
+--BEGIN
+--	INSERT INTO session_table
+--	VALUES
+--	(@code, @title, @start_date, @end_date)
+--END;
+--
+--CREATE PROCEDURE sp_post_department
+--AS
+--BEGIN
+--	
+--END;
 
+--CREATE PROCEDURE sp_post_student
+--@department_code VARCHAR(5),
+--@session_code VARCHAR(5),
+--@name VARCHAR(25),
+--@father_name VARCHAR(25),
+--@mobile_no VARCHAR(12),
+--@emergency_contact VARCHAR(12),
+--@registeration_date DATE,
+--@dob DATE,
+--@address VARCHAR(MAX),
+--@gender VARCHAR(10),
+--@active BIT
+--AS
+--BEGIN
+--	DECLARE @max_roll_no INT
+--	
+--	SELECT @max_roll_no=MAX(roll_no) 
+--	FROM student 
+--	WHERE department_code=@department_code
+--	AND session_code=@session_code
+--			
+--	INSERT INTO student
+--	VALUES(
+--	@department_code,
+--	@session_code,
+--	@roll_no + 1,
+--	@name,
+--	@father_name)
+--END;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
+ * [Concepts Covered]
+ * Create Table
+ * Primary Key
+ * Not Null constraint
+ * Default constraint
+ * Insert row
+ * Update row
+ * Where with Like clause
+ * Stored procedures with default parameters 
+ * 
+ */
