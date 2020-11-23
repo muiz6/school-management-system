@@ -10,9 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class App extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         final Parent root = FXMLLoader.load(getClass().getResource(R.Fxml.LOGIN_PAGE));
         _loadPreferences(primaryStage);
         primaryStage.getIcons().add(new Image(R.Image.ICON));

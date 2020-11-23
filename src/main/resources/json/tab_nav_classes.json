@@ -1,0 +1,15 @@
+{
+  "main_title": "Manage Classes",
+  "destinations": [
+    {
+      "id": "dest_add_class",
+      "title": "Add/Edit Class",
+      "fxmlPath": "/fxml/add_edit_class.fxml"
+    },
+    {
+      "id": "dest_view class",
+      "title": "View Class",
+      "fxmlPath": "/fxml/view_classes.fxml"
+    }
+  ]
+}

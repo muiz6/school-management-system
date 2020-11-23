@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.project.schoolsystem.ui.classes.AddEditClass"
+        prefHeight="400.0" prefWidth="600.0" hgap="50" stylesheets="/css/theme.css">
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50"/>
+        <ColumnConstraints percentWidth="50"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="100"/>
+    </rowConstraints>
+
+    <VBox GridPane.rowIndex="0" GridPane.columnIndex="0" alignment="TOP_CENTER" spacing="10">
+        <Label text="Add Class">
+            <font>
+                <Font name="System Bold"/>
+            </font>
+        </Label>
+        <HBox>
+            <Label text="Department"/>
+        </HBox>
+        <JFXComboBox maxWidth="Infinity"/>
+        <HBox>
+            <Label text="Title"/>
+        </HBox>
+        <JFXTextField/>
+        <HBox>
+            <Label text="Class Code"/>
+        </HBox>
+        <JFXTextField disable="true"/>
+        <JFXButton text="Add" prefWidth="100" styleClass="btn-primary"/>
+    </VBox>
+
+    <VBox GridPane.rowIndex="0" GridPane.columnIndex="1" alignment="TOP_CENTER" spacing="10">
+        <Label text="Edit Class">
+            <font>
+                <Font name="System Bold"/>
+            </font>
+        </Label>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Select"/>
+            <JFXComboBox maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <HBox>
+            <Label text="Department"/>
+        </HBox>
+        <JFXTextField disable="true"/>
+        <HBox>
+            <Label text="Title"/>
+        </HBox>
+        <JFXTextField/>
+        <HBox>
+            <Label text="Class Code"/>
+        </HBox>
+        <JFXTextField disable="true"/>
+        <HBox spacing="10">
+            <JFXButton text="Save" prefWidth="100" styleClass="btn-primary"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <JFXButton text="Deactivate" prefWidth="100" styleClass="btn-primary"/>
+        </HBox>
+    </VBox>
+
+    <padding>
+        <Insets left="50" right="50" top="10"/>
+    </padding>
+</GridPane>

@@ -44,7 +44,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'com.project.schoolsystem.Main'
+    mainClassName = 'com.project.schoolsystem.App'
 }
 
 compileJava {

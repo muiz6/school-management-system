@@ -39,6 +39,8 @@ public interface R {
         String TEACHER = "/json/navigation_teacher.json";
         String SESSION = "/json/tab_nav_session.json";
         String MANAGE_TEACHERS = "/json/tab_nav_mng_teachers.json";
+        String MANAGE_STUDENTS = "/json/tab_nav_mng_students.json";
+        String MANAGE_CLASSES = "/json/tab_nav_classes.json";
     }
 
     interface Id {

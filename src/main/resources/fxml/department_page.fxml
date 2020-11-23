@@ -41,7 +41,7 @@
                     </HBox>
                     <JFXTextField fx:id="fieldDepCodeAdd" promptText="Department Code"/>
                     <JFXTextField fx:id="fieldDepTitleAdd" promptText="Department Name"/>
-                    <JFXButton text="Save" styleClass="btn-secondary" onAction="#onAdd"/>
+                    <JFXButton text="Save" styleClass="btn-secondary" onAction="#onAdd" prefWidth="100"/>
                 </children>
 
                 <padding>
@@ -72,9 +72,9 @@
                     </columnConstraints>
                 </GridPane>
                 <HBox spacing="10">
-                    <JFXButton text="Save" styleClass="btn-secondary" onAction="#onUpdate"/>
+                    <JFXButton text="Save" styleClass="btn-secondary" onAction="#onUpdate" prefWidth="100"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <JFXButton text="Deactivate" styleClass="btn-secondary" onAction="#onDeactivate"/>
+                    <JFXButton text="Deactivate" styleClass="btn-secondary" onAction="#onDeactivate" prefWidth="100"/>
                 </HBox>
 
                 <padding>

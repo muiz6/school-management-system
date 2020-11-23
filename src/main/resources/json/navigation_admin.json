@@ -5,7 +5,7 @@
       "id": "dest_student",
       "glyphName": "GRADUATION_CAP",
       "title": "Students",
-      "fxmlPath": "/fxml/StudentRegistrationForm.fxml"
+      "fxmlPath": "/fxml/manage_students.fxml"
     },
     {
       "id": "dest_teacher",
@@ -17,7 +17,7 @@
       "id": "dest_class",
       "glyphName": "BOOK",
       "title": "Classes",
-      "fxmlPath": "/fxml/Dashboard.fxml"
+      "fxmlPath": "/fxml/class_page.fxml"
     },
     {
       "id": "dest_exam",
