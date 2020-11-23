@@ -1,5 +1,7 @@
 package com.project.schoolsystem;
 
+import com.project.schoolsystem.data.PreferenceProvider;
+import com.project.schoolsystem.data.models.PreferenceModel;
 import io.reactivex.functions.Consumer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

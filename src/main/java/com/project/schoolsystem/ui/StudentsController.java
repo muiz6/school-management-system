@@ -1,25 +1,25 @@
 package com.project.schoolsystem.ui;
 
 import com.project.schoolsystem.R;
+import com.project.schoolsystem.data.models.StudentsModelOld;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import com.project.schoolsystem.data.model.StudentsModelOld;
-import java.io.IOException;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class StudentsController implements Initializable {
     @FXML
@@ -32,16 +32,16 @@ public class StudentsController implements Initializable {
 
     @FXML
     public TableColumn<StudentsModelOld, Integer> Class;
-    
+
     @FXML
     public TableColumn<StudentsModelOld, Integer> Fee;
-    
+
     @FXML
     private Button btnAddNewStudent;
-    
+
     @FXML
     private Button btnRemoveStudent1;
-    
+
     //my bad - the freaking mouse event
     @FXML
     private void handleButtonClicks(javafx.event.ActionEvent mouseEvent) {
@@ -49,11 +49,11 @@ public class StudentsController implements Initializable {
             loadStage(R.Fxml.STUDENT_FORM);
         }else if (mouseEvent.getSource() == btnRemoveStudent1){
             loadStage(R.Fxml.DELETE_AND_EDIT_SYSTEM);
-        } 
+        }
         }
 
     @Override
-    
+
     public void initialize(URL location, ResourceBundle resources) {
         studentId.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
         firstName.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
@@ -80,7 +80,6 @@ public class StudentsController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    
+
 
 }

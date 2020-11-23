@@ -3,7 +3,7 @@ package com.project.schoolsystem.ui;
 import com.jfoenix.controls.JFXButton;
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.UserModel;
+import com.project.schoolsystem.data.models.UserModel;
 import com.project.schoolsystem.ui.snackbar.Snackbar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

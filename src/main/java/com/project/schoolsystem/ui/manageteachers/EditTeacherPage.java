@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.UserModel;
+import com.project.schoolsystem.data.models.UserModel;
 import com.project.schoolsystem.ui.alert.ConfirmationAlert;
 import com.project.schoolsystem.ui.navigation.Destination;
 import com.project.schoolsystem.ui.snackbar.Snackbar;

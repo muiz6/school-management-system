@@ -5,7 +5,7 @@ import com.google.gson.stream.JsonReader;
 import com.jfoenix.controls.JFXListView;
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.UserModel;
+import com.project.schoolsystem.data.models.UserModel;
 import com.project.schoolsystem.ui.PersonTile;
 import com.project.schoolsystem.ui.navigation.Destination;
 import com.project.schoolsystem.ui.navigation.Navigation;
@@ -17,6 +17,7 @@ import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MultipleSelectionModel;
@@ -79,7 +80,7 @@ public class ManageTeacherPage implements Initializable, Destination {
                     }
                 });
 
-        _updateTeacherListViewAll();
+        _updateTeacherListView("");
 
         fieldSearch.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -87,26 +88,30 @@ public class ManageTeacherPage implements Initializable, Destination {
                     String oldValue,
                     String newValue) {
                 if (newValue.length() >= 3) {
-                    _updateTeacherListViewBySearch(newValue);
+                    _updateTeacherListView(newValue);
                 } else if (newValue.isEmpty()) {
-                    _updateTeacherListViewAll();
+                    _updateTeacherListView("");
                 }
             }
         });
     }
 
-    private void _updateTeacherListViewAll() {
-        _server.getTeachers()
-                .subscribeOn(Schedulers.io())
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(new _MySingleObserver());
+    private void _updateTeacherListView(@Nonnull String query) {
+        if (query.isEmpty()) {
+            _server.getTeachers()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(JavaFxScheduler.platform())
+                    .subscribe(new _MySingleObserver());
+        } else {
+            _server.getTeacherBySearch(query)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(JavaFxScheduler.platform())
+                    .subscribe(new _MySingleObserver());
+        }
     }
 
-    private void _updateTeacherListViewBySearch(@Nonnull String query) {
-        _server.getTeacherBySearch(query)
-                .subscribeOn(Schedulers.io())
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(new _MySingleObserver());
+    public void onRefresh(ActionEvent actionEvent) {
+        _updateTeacherListView(fieldSearch.getText());
     }
 
     private class _MySingleObserver implements SingleObserver<List<UserModel>> {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.project.schoolsystem.data.model;
+package com.project.schoolsystem.data.models;
 
 /**
  *
@@ -19,7 +19,7 @@ public class StudentModel {
         this.id = id;
     }
 
-    
+
     private int id;
     private String name;
     private String father_name;
@@ -29,8 +29,7 @@ public class StudentModel {
     private String dob;
     private String active;
     private String address;
-    
-    
+
 
     public String getAddress() {
         return address;
@@ -39,8 +38,8 @@ public class StudentModel {
     public void setAddress(String address) {
         this.address = address;
     }
-    
-    
+
+
     public String getFather_name() {
         return father_name;
     }
@@ -88,7 +87,7 @@ public class StudentModel {
     public void setActive(String active) {
         this.active = active;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -96,6 +95,6 @@ public class StudentModel {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+
 }

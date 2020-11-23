@@ -7,7 +7,7 @@ package com.project.schoolsystem.ui;
 
 import com.jfoenix.controls.JFXTextField;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.StudentModel;
+import com.project.schoolsystem.data.models.StudentModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -17,7 +17,7 @@ import javafx.scene.control.DatePicker;
  * @author msufwan
  */
 public class StudentRegisterationController {
-    
+
     @FXML
     private JFXTextField fieldName;
     @FXML
@@ -32,19 +32,19 @@ public class StudentRegisterationController {
     private DatePicker datePickerDob;
     @FXML
     private DatePicker datePickerRgt;
-    
-    
+
+
     @FXML
     private Button btnAddNewStudent;
-    
+
     @FXML
     private Button btnRemoveStudent1;
-    
+
     public void onInsertStudent(javafx.event.ActionEvent mouseEvent)
     {
         _insertStudent();
     }
-    
+
     private void _insertStudent() {
         StudentModel model = new StudentModel();
         model.setName(fieldName.getText());
@@ -58,10 +58,10 @@ public class StudentRegisterationController {
         server.insertStudent(model, new SqlServer.OnCompletionCallback<String>() {
             @Override
             public void onResult(boolean success, String result) {
-            
+
                 // feesback from db here
             }
         });
     }
-    
+
 }

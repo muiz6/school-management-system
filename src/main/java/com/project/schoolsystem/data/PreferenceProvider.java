@@ -1,7 +1,8 @@
-package com.project.schoolsystem;
+package com.project.schoolsystem.data;
 
 
 import com.google.gson.Gson;
+import com.project.schoolsystem.data.models.PreferenceModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 

@@ -1,4 +1,4 @@
-package com.project.schoolsystem;
+package com.project.schoolsystem.data.models;
 
 import io.reactivex.annotations.Nullable;
 

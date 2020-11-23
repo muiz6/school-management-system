@@ -12,7 +12,6 @@ public interface R {
         String ATTENDANCE_MANAGEMENT_SYSTEM = "/fxml/AttendenceManagementSystem.fxml";
         String DELETE_AND_EDIT_SYSTEM = "/fxml/DeleteAndEditSystem.fxml";
         String STUDENT_FORM = "/fxml/StudentRegistrationForm.fxml";
-        String TEACHER_FORM = "/fxml/TeacherRegistrationForm.fxml";
         String MANAGE_CLASS = "/fxml/ManageClass.fxml";
         String TILE_CLASS = "/fxml/tile_class.fxml";
         String ADMIN_PAGE = "/fxml/admin_page.fxml";
@@ -48,7 +47,7 @@ public interface R {
 
     interface NavArgs {
         /**
-         * key for {@link com.project.schoolsystem.data.model.UserModel} argument
+         * key for {@link com.project.schoolsystem.data.models.UserModel} argument
          */
         String USER_MODEL = "user_model";
     }

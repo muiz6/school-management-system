@@ -1,4 +1,4 @@
-package com.project.schoolsystem.data.model;
+package com.project.schoolsystem.data.models;
 
 import java.sql.Date;
 

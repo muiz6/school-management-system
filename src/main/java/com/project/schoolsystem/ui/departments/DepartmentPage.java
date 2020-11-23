@@ -3,7 +3,7 @@ package com.project.schoolsystem.ui.departments;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.DepartmentModel;
+import com.project.schoolsystem.data.models.DepartmentModel;
 import com.project.schoolsystem.ui.snackbar.Snackbar;
 import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;

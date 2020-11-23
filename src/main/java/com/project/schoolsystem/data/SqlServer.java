@@ -1,7 +1,7 @@
 package com.project.schoolsystem.data;
 
 import com.project.schoolsystem.R;
-import com.project.schoolsystem.data.model.*;
+import com.project.schoolsystem.data.models.*;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -43,7 +43,7 @@ public class SqlServer {
     public void connect(OnCompletionCallback<String> callback) {
         try {
             try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
-                System.out.println("Connected Successfully!");
+                // System.out.println("Connected Successfully!");
                 callback.onResult(true, null);
             }
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class SqlServer {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
-            System.out.println("Connected Successfully!");
+            // System.out.println("Connected Successfully!");
 //                callback.onResult(true);
             return conn;
         } catch (ClassNotFoundException | SQLException e) {
@@ -249,22 +249,21 @@ public class SqlServer {
                 + "@qualification=?,"
                 + "@address=?,"
                 + "@active=?;";
-        try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
-            try (final PreparedStatement ps = conn.prepareStatement(query)) {
-                ps.setString(1, model.getUserName());
-                ps.setString(2, model.getPassword());
-                ps.setString(3, model.getDisplayName());
-                ps.setDate(4, model.getDob());
-                ps.setString(5, model.getGender());
-                ps.setString(6, model.getCnic());
-                ps.setString(7, model.getPhoneNumber());
-                ps.setString(8, model.getEmergencyContact());
-                ps.setString(9, model.getQualification());
-                ps.setString(10, model.getAddress());
-                ps.setBoolean(11, model.isActive());
-                ps.execute();
-                return true;
-            }
+        try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+             final PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, model.getUserName());
+            ps.setString(2, model.getPassword());
+            ps.setString(3, model.getDisplayName());
+            ps.setDate(4, model.getDob());
+            ps.setString(5, model.getGender());
+            ps.setString(6, model.getCnic());
+            ps.setString(7, model.getPhoneNumber());
+            ps.setString(8, model.getEmergencyContact());
+            ps.setString(9, model.getQualification());
+            ps.setString(10, model.getAddress());
+            ps.setBoolean(11, model.isActive());
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -362,34 +361,33 @@ public class SqlServer {
         return Single.create(new SingleOnSubscribe<Boolean>() {
             @Override
             public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
-                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
-                    final String query = "EXEC sp_post_user "
-                            + "@user_name=?,"
-                            + "@password=?,"
-                            + "@auth_role=?,"
-                            + "@display_name=?,"
-                            + "@dob=?,"
-                            + "@gender=?,"
-                            + "@cnic=?,"
-                            + "@mobile_no=?,"
-                            + "@emergency_contact=?,"
-                            + "@qualification=?,"
-                            + "@address=?;";
-                    try (final PreparedStatement ps = conn.prepareStatement(query)) {
-                        ps.setString(1, model.getUserName());
-                        ps.setString(2, model.getPassword());
-                        ps.setString(3, model.getRole());
-                        ps.setString(4, model.getDisplayName());
-                        ps.setDate(5, model.getDob());
-                        ps.setString(6, model.getGender());
-                        ps.setString(7, model.getCnic());
-                        ps.setString(8, model.getPhoneNumber());
-                        ps.setString(9, model.getEmergencyContact());
-                        ps.setString(10, model.getQualification());
-                        ps.setString(11, model.getAddress());
-                        ps.execute();
-                        emitter.onSuccess(true);
-                    }
+                final String query = "EXEC sp_post_user "
+                        + "@user_name=?,"
+                        + "@password=?,"
+                        + "@auth_role=?,"
+                        + "@display_name=?,"
+                        + "@dob=?,"
+                        + "@gender=?,"
+                        + "@cnic=?,"
+                        + "@mobile_no=?,"
+                        + "@emergency_contact=?,"
+                        + "@qualification=?,"
+                        + "@address=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, model.getUserName());
+                    ps.setString(2, model.getPassword());
+                    ps.setString(3, model.getRole());
+                    ps.setString(4, model.getDisplayName());
+                    ps.setDate(5, model.getDob());
+                    ps.setString(6, model.getGender());
+                    ps.setString(7, model.getCnic());
+                    ps.setString(8, model.getPhoneNumber());
+                    ps.setString(9, model.getEmergencyContact());
+                    ps.setString(10, model.getQualification());
+                    ps.setString(11, model.getAddress());
+                    ps.execute();
+                    emitter.onSuccess(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                     emitter.onError(e);
@@ -402,21 +400,20 @@ public class SqlServer {
         return Single.create(new SingleOnSubscribe<List<SessionModel>>() {
             @Override
             public void subscribe(@NonNull SingleEmitter<List<SessionModel>> emitter) throws Exception {
-                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
-                    final String query = "EXEC sp_get_sessions;";
-                    try (final PreparedStatement ps = conn.prepareStatement(query);
-                         final ResultSet rs = ps.executeQuery()) {
-                        final List<SessionModel> sessionList = new ArrayList<>();
-                        while (rs.next()) {
-                            final SessionModel model = new SessionModel();
-                            model.setSessionCode(rs.getString("code"));
-                            model.setSessionTitle(rs.getString("title"));
-                            model.setStartDate(rs.getDate("start_date"));
-                            model.setEndDate(rs.getDate("end_date"));
-                            sessionList.add(model);
-                        }
-                        emitter.onSuccess(sessionList);
+                final String query = "EXEC sp_get_sessions;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query);
+                     final ResultSet rs = ps.executeQuery()) {
+                    final List<SessionModel> sessionList = new ArrayList<>();
+                    while (rs.next()) {
+                        final SessionModel model = new SessionModel();
+                        model.setSessionCode(rs.getString("code"));
+                        model.setSessionTitle(rs.getString("title"));
+                        model.setStartDate(rs.getDate("start_date"));
+                        model.setEndDate(rs.getDate("end_date"));
+                        sessionList.add(model);
                     }
+                    emitter.onSuccess(sessionList);
                 } catch (SQLException e) {
                     e.printStackTrace();
                     emitter.onError(e);

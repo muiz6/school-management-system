@@ -312,8 +312,14 @@ BEGIN
 	SELECT * FROM session_table
 END;
 
+CREATE PROCEDURE sp_get_departments
+AS
+BEGIN
+	SELECT * FROM departments;
+END;
+
 CREATE PROCEDURE sp_post_department
-@code VARCHAR,
+@code VARCHAR(5),
 @title VARCHAR(MAX)
 AS
 BEGIN

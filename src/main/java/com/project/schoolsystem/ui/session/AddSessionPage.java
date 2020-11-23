@@ -2,7 +2,7 @@ package com.project.schoolsystem.ui.session;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.SessionModel;
+import com.project.schoolsystem.data.models.SessionModel;
 import com.project.schoolsystem.ui.snackbar.Snackbar;
 import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;

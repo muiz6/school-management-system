@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.*?>
@@ -49,8 +50,13 @@
                     <Insets left="5" right="5"/>
                 </padding>
             </HBox>
+            <JFXButton prefWidth="5" onAction="#onRefresh">
+                <graphic>
+                    <FontAwesomeIconView glyphName="REFRESH" fill="grey"/>
+                </graphic>
+            </JFXButton>
             <padding>
-                <Insets left="10" right="10"/>
+                <Insets left="10"/>
             </padding>
         </HBox>
         <Region prefHeight="10"/>

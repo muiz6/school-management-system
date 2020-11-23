@@ -5,7 +5,7 @@ import com.google.gson.stream.JsonReader;
 import com.jfoenix.controls.JFXListView;
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.SessionModel;
+import com.project.schoolsystem.data.models.SessionModel;
 import com.project.schoolsystem.ui.navigation.Navigation;
 import com.project.schoolsystem.ui.navigation.TabAdapter;
 import io.reactivex.SingleObserver;

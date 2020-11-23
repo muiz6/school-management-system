@@ -1,5 +1,6 @@
 package com.project.schoolsystem.ui;
 
+import com.project.schoolsystem.data.models.StudentsModelOld;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,7 +9,6 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import com.project.schoolsystem.data.model.StudentsModelOld;
 
 import java.net.URL;
 import java.util.ResourceBundle;

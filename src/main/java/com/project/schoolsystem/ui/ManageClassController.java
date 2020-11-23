@@ -2,7 +2,7 @@ package com.project.schoolsystem.ui;
 
 import com.project.schoolsystem.R;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.ClassModel;
+import com.project.schoolsystem.data.models.ClassModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

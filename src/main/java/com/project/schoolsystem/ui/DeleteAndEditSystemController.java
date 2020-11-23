@@ -7,20 +7,20 @@ package com.project.schoolsystem.ui;
 
 import com.jfoenix.controls.JFXTextField;
 import com.project.schoolsystem.data.SqlServer;
-import com.project.schoolsystem.data.model.StudentModel;
-import java.time.LocalDate;
+import com.project.schoolsystem.data.models.StudentModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
+import java.time.LocalDate;
+
 /**
- *
  * @author msufwan
  */
 public class DeleteAndEditSystemController {
-    
+
     @FXML
     private JFXTextField fieldId;
-    
+
     @FXML
     private JFXTextField fieldName;
     @FXML
@@ -35,11 +35,11 @@ public class DeleteAndEditSystemController {
     private DatePicker datePickerDob;
     @FXML
     private DatePicker datePickerRgtDate;
-    
+
     public void onSearchStudent(javafx.event.ActionEvent mouseEvent){
         _searchStudent();
     }
-    
+
     private void _searchStudent(){
         int id = Integer.parseInt(fieldId.getText());
 //        StudentModel model = new StudentSearchModel();

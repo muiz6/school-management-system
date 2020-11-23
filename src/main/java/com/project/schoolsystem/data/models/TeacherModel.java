@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.project.schoolsystem.data.model;
+package com.project.schoolsystem.data.models;
 
 /**
  *
  * @author msufwan
  */
 public class TeacherModel {
-    
+
     private int id;
     private String name;
     private String cnic;
@@ -101,5 +101,5 @@ public class TeacherModel {
     public void setQualification(String qualification) {
         this.qualification = qualification;
     }
-    
+
 }
