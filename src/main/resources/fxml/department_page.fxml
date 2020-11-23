@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<VBox fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+        xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.schoolsystem.ui.departments.DepartmentPage">
+    <stylesheets>
+        <String fx:value="/css/theme.css"/>
+    </stylesheets>
+
+    <GridPane maxWidth="Infinity" VBox.vgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="70"/>
+            <ColumnConstraints percentWidth="30"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints percentHeight="50"/>
+            <RowConstraints percentHeight="50"/>
+        </rowConstraints>
+        <children>
+            <VBox alignment="TOP_CENTER" styleClass="bg-surface" spacing="10">
+                <children>
+                    <Label styleClass="text-on-surface" text="Manage Departments">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+                    <Region prefHeight="10"/>
+
+                    <HBox>
+                        <Label text="Add Department">
+                            <font>
+                                <Font size="12" name="System Bold"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                    <JFXTextField fx:id="fieldDepCodeAdd" promptText="Department Code"/>
+                    <JFXTextField fx:id="fieldDepTitleAdd" promptText="Department Name"/>
+                    <JFXButton text="Save" styleClass="btn-secondary" onAction="#onAdd"/>
+                </children>
+
+                <padding>
+                    <Insets left="50" right="50" top="10"/>
+                </padding>
+            </VBox>
+
+            <VBox styleClass="bg-surface" GridPane.columnIndex="0" GridPane.rowIndex="1" spacing="10">
+                <HBox>
+                    <Label text="Edit Department">
+                        <font>
+                            <Font name="System Bold" size="12.0"/>
+                        </font>
+                    </Label>
+                </HBox>
+                <GridPane>
+                    <Label text="Department Code" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <JFXTextField fx:id="fieldDepCodeEdit" disable="true" GridPane.rowIndex="0"
+                            GridPane.columnIndex="1"/>
+
+                    <Label text="Department Title" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <JFXTextField fx:id="fieldDepTitleEdit" HBox.hgrow="ALWAYS" GridPane.rowIndex="1"
+                            GridPane.columnIndex="1"/>
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="40"/>
+                        <ColumnConstraints percentWidth="60"/>
+                    </columnConstraints>
+                </GridPane>
+                <HBox spacing="10">
+                    <JFXButton text="Save" styleClass="btn-secondary" onAction="#onUpdate"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <JFXButton text="Deactivate" styleClass="btn-secondary" onAction="#onDeactivate"/>
+                </HBox>
+
+                <padding>
+                    <Insets left="50" right="50"/>
+                </padding>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="bg-background"
+                    GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2">
+                <children>
+                    <Label text="Search"/>
+                    <Region prefHeight="10"/>
+                    <HBox maxWidth="Infinity">
+                        <HBox alignment="CENTER"
+                                style="-fx-border-color: grey; -fx-border-width: 1; -fx-border-radius: 3;"
+                                HBox.hgrow="ALWAYS">
+                            <FontAwesomeIconView glyphName="SEARCH">
+                                <HBox.margin>
+                                    <Insets right="5.0"/>
+                                </HBox.margin>
+                            </FontAwesomeIconView>
+                            <TextField fx:id="fieldSearch" promptText="Search" styleClass="text-field-clear"
+                                    HBox.hgrow="ALWAYS"/>
+                            <padding>
+                                <Insets left="5" right="5"/>
+                            </padding>
+                        </HBox>
+                        <JFXButton onAction="#onRefresh" prefWidth="5">
+                            <graphic>
+                                <FontAwesomeIconView fill="grey" glyphName="REFRESH"/>
+                            </graphic>
+                        </JFXButton>
+                        <padding>
+                            <Insets left="10"/>
+                        </padding>
+                    </HBox>
+                    <Region prefHeight="10"/>
+                    <JFXListView fx:id="departmentListV" VBox.vgrow="ALWAYS"/>
+                </children>
+                <padding>
+                    <Insets top="10"/>
+                </padding>
+            </VBox>
+        </children>
+    </GridPane>
+</VBox>

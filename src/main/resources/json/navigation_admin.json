@@ -30,6 +30,12 @@
       "glyphName": "HOURGLASS",
       "title": "Session",
       "fxmlPath": "/fxml/session_page.fxml"
+    },
+    {
+      "id": "dest_department",
+      "glyphName": "ANCHOR",
+      "title": "Departments",
+      "fxmlPath": "/fxml/department_page.fxml"
     }
   ]
 }

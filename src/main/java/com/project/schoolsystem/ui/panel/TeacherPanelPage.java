@@ -13,7 +13,6 @@ import com.project.schoolsystem.ui.LoginPage;
 import com.project.schoolsystem.ui.navigation.DestinationModel;
 import com.project.schoolsystem.ui.navigation.DrawerAdapter;
 import com.project.schoolsystem.ui.navigation.Navigation;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.reactivex.functions.Consumer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,14 +39,12 @@ public class TeacherPanelPage implements Initializable {
     @FXML
     private JFXListView drawer;
     @FXML
-    private FontAwesomeIconView iconCog;
-    @FXML
     private AnchorPane mainView;
 
     public TeacherPanelPage() {
         final Gson gson = new Gson();
         final JsonReader jsonReader = new JsonReader(new InputStreamReader(
-                getClass().getResourceAsStream(R.Navigation.ADMIN)));
+                getClass().getResourceAsStream(R.Navigation.TEACHER)));
         final Navigation navigation = gson.fromJson(jsonReader, Navigation.class);
         _drawerAdapter = new DrawerAdapter(navigation);
     }

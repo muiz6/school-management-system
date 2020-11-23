@@ -75,6 +75,7 @@ public class EditTeacherPage implements Destination, Initializable {
 
     public void onSave(ActionEvent actionEvent) {
         final UserModel model = new UserModel();
+        model.setActive(true);
         _saveUser(model);
     }
 

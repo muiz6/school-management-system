@@ -3,6 +3,10 @@ CREATE DATABASE school_system;
 
 USE school_system;
 
+CREATE TABLE auth_roles(
+	id VARCHAR(10) PRIMARY KEY
+);
+
 --Create user entity
 CREATE TABLE users(
 	user_name VARCHAR(15) PRIMARY KEY,
@@ -20,8 +24,6 @@ CREATE TABLE users(
 );
 ALTER TABLE users ADD CONSTRAINT chk_gender CHECK (gender IN ('male', 'female'));
 
-
-
 -- Create session entity
 CREATE TABLE session_table(
 	code VARCHAR(5) PRIMARY KEY,
@@ -30,14 +32,14 @@ CREATE TABLE session_table(
 	end_date DATE
 );
 
-CREATE TABLE department(
+CREATE TABLE departments(
 	code VARCHAR(5) PRIMARY KEY,
 	title VARCHAR(MAX) NOT NULL,
-	active BIT
+	active BIT NOT NULL DEFAULT 1
 );
 
 -- Create student entity
-CREATE TABLE student(
+CREATE TABLE students(
 	session_code VARCHAR(5) FOREIGN KEY REFERENCES session_table(code),
 	department_code VARCHAR(5) FOREIGN KEY REFERENCES department(code),
 	roll_no INT NOT NULL,
@@ -54,12 +56,12 @@ CREATE TABLE student(
 );
 
 -- Create session entity
-CREATE TABLE school_system.dbo.term(
-	id INT PRIMARY KEY IDENTITY(1, 1),
-	title NVARCHAR(25) NOT NULL,
-	start_date DATE NOT NULL,
-	end_date DATE,
-);
+--CREATE TABLE school_system.dbo.term(
+--	id INT PRIMARY KEY IDENTITY(1, 1),
+--	title NVARCHAR(25) NOT NULL,
+--	start_date DATE NOT NULL,
+--	end_date DATE,
+--);
 
 -- Create exam group entity
 CREATE TABLE school_system.dbo.exam_group(
@@ -69,18 +71,18 @@ CREATE TABLE school_system.dbo.exam_group(
 );
 
 -- create teacher attendance entity
-CREATE TABLE school_system.dbo.attendance_teacher(
-	attendance_date DATE NOT NULL,
-	teacher_id INT FOREIGN KEY REFERENCES teacher(id) NOT NULL,
-	time_in TIME NOT NULL,
-	PRIMARY KEY(attendance_date, teacher_id),
-);
+--CREATE TABLE school_system.dbo.attendance_teacher(
+--	attendance_date DATE NOT NULL,
+--	teacher_id INT FOREIGN KEY REFERENCES teacher(id) NOT NULL,
+--	time_in TIME NOT NULL,
+--	PRIMARY KEY(attendance_date, teacher_id),
+--);
 
 -- create subject entity
-CREATE TABLE school_system.dbo.subject(
-	id INT PRIMARY KEY IDENTITY(1, 1),
-	title NVARCHAR(25) NOT NULL,
-);
+--CREATE TABLE school_system.dbo.subject(
+--	id INT PRIMARY KEY IDENTITY(1, 1),
+--	title NVARCHAR(25) NOT NULL,
+--);
 
 -- create class entity
 CREATE TABLE school_system.dbo.class(
@@ -121,22 +123,15 @@ CREATE TABLE school_system.dbo.attendance_student(
 );
 
 -- create time table entity
-CREATE TABLE school_system.dbo.time_table(
-	term_id INT FOREIGN KEY REFERENCES term(id),
-	week_day CHAR(10) NOT NULL,
-	class_time TIME NOT NULL,
-	subject_id INT FOREIGN KEY REFERENCES subject(id),
-	teacher_id INT FOREIGN KEY REFERENCES teacher(id),
-	class_id INT FOREIGN KEY REFERENCES class(id),
-	PRIMARY KEY(week_day, class_time, class_id),
-);
-
-CREATE TABLE auth_roles(
-	id VARCHAR(10) PRIMARY KEY
-);
-
--- create predefined roles
-INSERT INTO auth_roles VALUES('admin'), ('teacher');
+--CREATE TABLE school_system.dbo.time_table(
+--	term_id INT FOREIGN KEY REFERENCES term(id),
+--	week_day CHAR(10) NOT NULL,
+--	class_time TIME NOT NULL,
+--	subject_id INT FOREIGN KEY REFERENCES subject(id),
+--	teacher_id INT FOREIGN KEY REFERENCES teacher(id),
+--	class_id INT FOREIGN KEY REFERENCES class(id),
+--	PRIMARY KEY(week_day, class_time, class_id),
+--);
 
 -- stored procedures
 CREATE PROCEDURE sp_get_user 
@@ -299,23 +294,36 @@ BEGIN
 	OR user_name LIKE CONCAT('%', @query, '%')
 END;
 
---CREATE PROCEDURE sp_post_session
---@code VARCHAR(5),
---@title VARCHAR(MAX),
---@start_date DATE,
---@end_date DATE
---AS
---BEGIN
---	INSERT INTO session_table
---	VALUES
---	(@code, @title, @start_date, @end_date)
---END;
---
---CREATE PROCEDURE sp_post_department
---AS
---BEGIN
---	
---END;
+CREATE PROCEDURE sp_post_session
+@code VARCHAR(5),
+@title VARCHAR(MAX),
+@start_date DATE,
+@end_date DATE
+AS
+BEGIN
+	INSERT INTO session_table
+	VALUES
+	(@code, @title, @start_date, @end_date)
+END;
+
+CREATE PROCEDURE sp_get_sessions
+AS
+BEGIN
+	SELECT * FROM session_table
+END;
+
+CREATE PROCEDURE sp_post_department
+@code VARCHAR,
+@title VARCHAR(MAX)
+AS
+BEGIN
+	INSERT INTO departments(
+	code,
+	title)
+	VALUES(
+	@code,
+	@title);
+END;
 
 --CREATE PROCEDURE sp_post_student
 --@department_code VARCHAR(5),

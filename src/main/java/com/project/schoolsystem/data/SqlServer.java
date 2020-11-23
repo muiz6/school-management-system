@@ -1,10 +1,7 @@
 package com.project.schoolsystem.data;
 
 import com.project.schoolsystem.R;
-import com.project.schoolsystem.data.model.ClassModel;
-import com.project.schoolsystem.data.model.StudentModel;
-import com.project.schoolsystem.data.model.TeacherModel;
-import com.project.schoolsystem.data.model.UserModel;
+import com.project.schoolsystem.data.model.*;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -393,6 +390,104 @@ public class SqlServer {
                         ps.execute();
                         emitter.onSuccess(true);
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<List<SessionModel>> getSessions() {
+        return Single.create(new SingleOnSubscribe<List<SessionModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<SessionModel>> emitter) throws Exception {
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
+                    final String query = "EXEC sp_get_sessions;";
+                    try (final PreparedStatement ps = conn.prepareStatement(query);
+                         final ResultSet rs = ps.executeQuery()) {
+                        final List<SessionModel> sessionList = new ArrayList<>();
+                        while (rs.next()) {
+                            final SessionModel model = new SessionModel();
+                            model.setSessionCode(rs.getString("code"));
+                            model.setSessionTitle(rs.getString("title"));
+                            model.setStartDate(rs.getDate("start_date"));
+                            model.setEndDate(rs.getDate("end_date"));
+                            sessionList.add(model);
+                        }
+                        emitter.onSuccess(sessionList);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<Boolean> postSession(SessionModel session) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String query = "EXEC sp_post_session "
+                        + "@code=?,"
+                        + "@title=?,"
+                        + "@start_date=?,"
+                        + "@end_date=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, session.getSessionCode());
+                    ps.setString(2, session.getSessionTitle());
+                    ps.setDate(3, session.getStartDate());
+                    ps.setDate(4, session.getEndDate());
+                    ps.execute();
+                    emitter.onSuccess(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<List<DepartmentModel>> getDepartments() {
+        return Single.create(new SingleOnSubscribe<List<DepartmentModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<DepartmentModel>> emitter) throws Exception {
+                final String query = "EXEC sp_get_departments;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query);
+                     final ResultSet rs = ps.executeQuery()) {
+                    final List<DepartmentModel> departments = new ArrayList<>();
+                    while (rs.next()) {
+                        final DepartmentModel model = new DepartmentModel();
+                        model.setTitle(rs.getString("code"));
+                        model.setDepartmentCode(rs.getString("title"));
+                        model.setActive(rs.getBoolean("active"));
+                        departments.add(model);
+                    }
+                    emitter.onSuccess(departments);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<Boolean> postDepartment(DepartmentModel department) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String query = "EXEC sp_post_department "
+                        + "@code=?,"
+                        + "@title=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, department.getDepartmentCode());
+                    ps.setString(2, department.getTitle());
+                    ps.execute();
+                    emitter.onSuccess(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                     emitter.onError(e);

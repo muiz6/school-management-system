@@ -27,6 +27,8 @@ public interface R {
         String MANAGE_TEACHERS = "/fxml/manage_teachers.fxml";
         String PERSON_TILE = "/fxml/tile_person.fxml";
         String ALERT = "/fxml/alert.fxml";
+        String SESSION_TILE = "/fxml/tile_session.fxml";
+        String DEPARTMENT_TILE = "/fxml/tile_department.fxml";
     }
 
     interface Image {
@@ -35,6 +37,7 @@ public interface R {
 
     interface Navigation {
         String ADMIN = "/json/navigation_admin.json";
+        String TEACHER = "/json/navigation_teacher.json";
         String SESSION = "/json/tab_nav_session.json";
         String MANAGE_TEACHERS = "/json/tab_nav_mng_teachers.json";
     }
