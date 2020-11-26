@@ -5,19 +5,13 @@
       "id": "dest_student",
       "glyphName": "GRADUATION_CAP",
       "title": "Students",
-      "fxmlPath": "/fxml/StudentRegistrationForm.fxml"
+      "fxmlPath": "/fxml/manage_students.fxml"
     },
     {
       "id": "dest_class",
       "glyphName": "BOOK",
       "title": "Classes",
-      "fxmlPath": "/fxml/Dashboard.fxml"
-    },
-    {
-      "id": "dest_exam",
-      "glyphName": "EDIT",
-      "title": "Exams",
-      "fxmlPath": "/fxml/Timetable.fxml"
+      "fxmlPath": "/fxml/class_page.fxml"
     }
   ]
 }

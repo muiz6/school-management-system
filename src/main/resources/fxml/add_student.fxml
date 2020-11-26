@@ -58,7 +58,7 @@
                 prefWidth="100" prefRowCount="2"/>
 
         <Label text="Class" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
-        <JFXComboBox GridPane.rowIndex="11" GridPane.columnIndex="1" maxWidth="Infinity"/>
+        <JFXComboBox GridPane.rowIndex="11" GridPane.columnIndex="1" maxWidth="Infinity" fx:id="comboxClass"/>
     </GridPane>
     <JFXButton prefWidth="100" text="Add" styleClass="btn-secondary" onAction="#onAdd"/>
 

@@ -65,9 +65,11 @@ CREATE TABLE students(
 );
 
 CREATE TABLE class_register(
-	session_code INT FOREIGN KEY REFERENCES class(id) NOT NULL,
-	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no),
-	PRIMARY KEY(class_id, student_roll_no),
+	department_code VARCHAR(5) FOREIGN KEY REFERENCES departments(code),
+	session_code VARCHAR(5) FOREIGN KEY REFERENCES session_table(code),
+	class_code VARCHAR(5) NOT NULL,
+	student_roll_no INT NOT NULL,
+	PRIMARY KEY(department_code, session_code, class_code, student_roll_no)
 );
 
 CREATE TABLE audit_student(
@@ -325,6 +327,17 @@ BEGIN
 	@title);
 END;
 
+CREATE PROCEDURE sp_get_classes_by_department_session
+@department_code VARCHAR(5),
+@session_code VARCHAR(5)
+AS
+BEGIN
+	SELECT * FROM classes 
+	WHERE department_code=@department_code
+	AND session_code=@session_code
+	AND active=1
+END;
+
 CREATE PROCEDURE sp_post_class
 @code VARCHAR(5),
 @department_code VARCHAR(5),
@@ -339,6 +352,20 @@ BEGIN
 	@code,
 	@department_code,
 	@session_code)
+END;
+
+CREATE PROCEDURE sp_get_students
+AS
+BEGIN
+	SELECT * FROM students WHERE active=1 ORDER BY registeration_date DESC
+END;
+
+CREATE PROCEDURE sp_get_students_by_search
+@query_name VARCHAR(25)
+AS
+BEGIN
+	SELECT * FROM students
+	WHERE name LIKE CONCAT('%', @query_name, '%') 
 END;
 
 CREATE PROCEDURE sp_post_student
@@ -383,7 +410,7 @@ BEGIN
 	@gender)
 END;
 
-ALTER PROCEDURE sp_student_roll_no_new
+CREATE PROCEDURE sp_student_roll_no_new
 @department_code VARCHAR(5),
 @session_code VARCHAR(5),
 @roll_no INT OUTPUT
@@ -405,7 +432,7 @@ BEGIN
 	END
 END;
 
-ALTER PROCEDURE sp_get_student_roll_no_new
+CREATE PROCEDURE sp_get_student_roll_no_new
 @department_code VARCHAR(5),
 @session_code VARCHAR(5)
 AS
@@ -426,6 +453,21 @@ BEGIN
 	END
 	
 	SELECT @new_roll_no AS new_roll_no
+END;
+
+CREATE PROCEDURE sp_post_class_register_entry
+@department_code VARCHAR(5),
+@session_code VARCHAR(5),
+@class_code VARCHAR(5),
+@student_roll_no INT
+AS
+BEGIN
+	INSERT INTO class_register 
+	VALUES(
+	@department_code,
+	@session_code,
+	@class_code,
+	@student_roll_no)
 END;
 
 CREATE TRIGGER tr_on_insert_student

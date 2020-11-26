@@ -42,5 +42,6 @@ public interface R {
          * key for {@link com.project.schoolsystem.data.models.UserModel} argument
          */
         String USER_MODEL = "user_model";
+        String STUDENT_MODEL = "student_model";
     }
 }

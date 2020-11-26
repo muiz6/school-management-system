@@ -358,6 +358,35 @@ public class SqlServer {
         });
     }
 
+    public Single<List<ClassModel>> getClasses(@NonNull String departmentCode,
+            @NonNull String sessionCode) {
+        return Single.create(new SingleOnSubscribe<List<ClassModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<ClassModel>> emitter) throws Exception {
+                final String query = "EXEC sp_get_classes_by_department_session "
+                        + "@department_code=?,"
+                        + "@session_code=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, departmentCode);
+                    ps.setString(2, sessionCode);
+                    try (final ResultSet rs = ps.executeQuery()) {
+                        final List<ClassModel> classes = new ArrayList<>();
+                        while (rs.next()) {
+                            final ClassModel model = new ClassModel();
+                            model.setDepartmentCode(rs.getString("department_code"));
+                            model.setSessionCode(rs.getString("session_code"));
+                            model.setClassCode(rs.getString("code"));
+                            model.setActive(true);
+                            classes.add(model);
+                        }
+                        emitter.onSuccess(classes);
+                    }
+                }
+            }
+        });
+    }
+
     public Single<Boolean> postClass(ClassModel classModel) {
         return Single.create(new SingleOnSubscribe<Boolean>() {
             @Override
@@ -376,6 +405,37 @@ public class SqlServer {
                 } catch (SQLException e) {
                     e.printStackTrace();
                     emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<List<StudentModel>> getStudents() {
+        return Single.create(new SingleOnSubscribe<List<StudentModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<StudentModel>> emitter) throws Exception {
+                final String query = "EXEC sp_get_students;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query);
+                     final ResultSet rs = ps.executeQuery()) {
+                    final List<StudentModel> students = new ArrayList<>();
+                    while (rs.next()) {
+                        final StudentModel model = new StudentModel();
+                        model.setDepartmentCode(rs.getString("department_code"));
+                        model.setSessionCode(rs.getString("session_code"));
+                        model.setRollNo(rs.getInt("roll_no"));
+                        model.setRegistrationDate(rs.getDate("registration_date"));
+                        model.setName(rs.getString("name"));
+                        model.setFatherName(rs.getString("father_name"));
+                        model.setPhoneNumber(rs.getString("mobile_no"));
+                        model.setCnic(rs.getString("cnic"));
+                        model.setDob(rs.getDate("dob"));
+                        model.setGender(rs.getString("gender"));
+                        model.setActive(rs.getBoolean("active"));
+                        model.setAddress(rs.getString("address"));
+                        students.add(model);
+                    }
+                    emitter.onSuccess(students);
                 }
             }
         });
@@ -436,40 +496,27 @@ public class SqlServer {
         });
     }
 
-    // public Single<UserModel> getUser(String userName) {
-    //     return Single.create(new SingleOnSubscribe<UserModel>() {
-    //         @Override
-    //         public void subscribe(@NonNull SingleEmitter<UserModel> emitter) throws Exception {
-    //             try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL)) {
-    //                 final String query = "EXEC sp_get_user_by_user_name ?;";
-    //                 try (final PreparedStatement ps = conn.prepareStatement(query)) {
-    //                     ps.setString(1, userName);
-    //                     try (final ResultSet rs = ps.executeQuery()) {
-    //                         if (rs.next()) {
-    //                             final UserModel user = new UserModel();
-    //                             user.setUserName(rs.getString("user_name"));
-    //                             user.setPassword(rs.getString("password"));
-    //                             user.setRegistrationDate(rs.getDate("registration_date"));
-    //                             user.setDisplayName(rs.getString("display_name"));
-    //                             user.setDob(rs.getDate("dob"));
-    //                             user.setGender(rs.getString("gender"));
-    //                             user.setPhoneNumber(rs.getString("mobile_no"));
-    //                             user.setEmergencyContact(rs.getString("emergency_contact"));
-    //                             user.setAddress(rs.getString("address"));
-    //                             user.setCnic(rs.getString("cnic"));
-    //                             user.setRole(rs.getString("user_role"));
-    //                             user.setActive(rs.getBoolean("active"));
-    //                             user.setQualification(rs.getString("qualification"));
-    //                             emitter.onSuccess(user);
-    //                         }
-    //                     }
-    //                 }
-    //             } catch (SQLException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     });
-    // }
+    public Single<Boolean> postClassRegisterEntry(ClassRegisterEntryModel model) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String query = "EXEC sp_post_class_register_entry "
+                        + "@department_code=?,"
+                        + "@session_code=?,"
+                        + "@class_code=?,"
+                        + "@student_roll_no=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, model.getDepartmentCode());
+                    ps.setString(2, model.getSessionCode());
+                    ps.setString(3, model.getClassCode());
+                    ps.setInt(4, model.getStudentRollNumber());
+                    ps.execute();
+                    emitter.onSuccess(true);
+                }
+            }
+        });
+    }
 
     public interface OnCompletionCallback<T> {
         void onResult(boolean success, T result);
