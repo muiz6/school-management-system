@@ -38,44 +38,42 @@ CREATE TABLE departments(
 	active BIT NOT NULL DEFAULT 1
 );
 
+CREATE TABLE classes(
+	session_code VARCHAR(5) FOREIGN KEY REFERENCES session_table(code),
+	department_code VARCHAR(5) FOREIGN KEY REFERENCES departments(code),
+	code VARCHAR(5) NOT NULL,
+	active BIT DEFAULT 1,
+	PRIMARY KEY(session_code, department_code, code)
+);
+
 -- Create student entity
 CREATE TABLE students(
 	session_code VARCHAR(5) FOREIGN KEY REFERENCES session_table(code),
-	department_code VARCHAR(5) FOREIGN KEY REFERENCES department(code),
+	department_code VARCHAR(5) FOREIGN KEY REFERENCES departments(code),
 	roll_no INT NOT NULL,
 	name VARCHAR(25) NOT NULL,
 	father_name NVARCHAR(25) NOT NULL,
 	mobile_no CHAR(12) NOT NULL,
 	emergency_contact CHAR(12) NOT NULL,
-	registeration_date DATE NOT NULL,
 	dob DATE NOT NULL,
 	address NVARCHAR(MAX) NOT NULL,
 	gender VARCHAR(10) NOT NULL,
+	registeration_date DATE NOT NULL DEFAULT GETDATE(),
 	active BIT NOT NULL DEFAULT 1,
 	PRIMARY KEY (session_code, department_code, roll_no)
 );
 
--- Create session entity
---CREATE TABLE school_system.dbo.term(
---	id INT PRIMARY KEY IDENTITY(1, 1),
---	title NVARCHAR(25) NOT NULL,
---	start_date DATE NOT NULL,
---	end_date DATE,
---);
-
--- Create exam group entity
-CREATE TABLE school_system.dbo.exam_group(
-	id INT PRIMARY KEY IDENTITY(1, 1),
-	title NVARCHAR(25) NOT NULL, -- Quiz 1, Mid, Final etc
-	session_id INT NOT NULL FOREIGN KEY REFERENCES term(id),
+CREATE TABLE class_register(
+	session_code INT FOREIGN KEY REFERENCES class(id) NOT NULL,
+	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no),
+	PRIMARY KEY(class_id, student_roll_no),
 );
 
--- create teacher attendance entity
---CREATE TABLE school_system.dbo.attendance_teacher(
---	attendance_date DATE NOT NULL,
---	teacher_id INT FOREIGN KEY REFERENCES teacher(id) NOT NULL,
---	time_in TIME NOT NULL,
---	PRIMARY KEY(attendance_date, teacher_id),
+-- Create exam group entity
+--CREATE TABLE school_system.dbo.exam_group(
+--	id INT PRIMARY KEY IDENTITY(1, 1),
+--	title NVARCHAR(25) NOT NULL, -- Quiz 1, Mid, Final etc
+--	session_id INT NOT NULL FOREIGN KEY REFERENCES term(id),
 --);
 
 -- create subject entity
@@ -84,43 +82,30 @@ CREATE TABLE school_system.dbo.exam_group(
 --	title NVARCHAR(25) NOT NULL,
 --);
 
--- create class entity
-CREATE TABLE school_system.dbo.class(
-	id INT PRIMARY KEY IDENTITY(1, 1),
-	term_id INT NOT NULL FOREIGN KEY REFERENCES term(id),
-	name CHAR(5) NOT NULL,
-);
-
 -- create examination entity
-CREATE TABLE school_system.dbo.examination(
-	id INT PRIMARY KEY IDENTITY(1, 1),
-	exam_date DATE NOT NULL,
-	exam_time TIME NOT NULL,
-	class_id INT FOREIGN KEY REFERENCES class(id) NOT NULL,
-	exam_group INT FOREIGN KEY REFERENCES exam_group(id),
-	subject_id INT FOREIGN KEY REFERENCES subject(id),
-);
+--CREATE TABLE school_system.dbo.examination(
+--	id INT PRIMARY KEY IDENTITY(1, 1),
+--	exam_date DATE NOT NULL,
+--	exam_time TIME NOT NULL,
+--	class_id INT FOREIGN KEY REFERENCES class(id) NOT NULL,
+--	exam_group INT FOREIGN KEY REFERENCES exam_group(id),
+--	subject_id INT FOREIGN KEY REFERENCES subject(id),
+--);
 
 -- create exam result entity
-CREATE TABLE school_system.dbo.exam_result(
-	exam_id INT FOREIGN KEY REFERENCES examination(id),
-	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no),
-	marks FLOAT NOT NULL,
-	PRIMARY KEY(exam_id, student_roll_no),
-);
-
-CREATE TABLE school_system.dbo.class_register(
-	class_id INT FOREIGN KEY REFERENCES class(id) NOT NULL,
-	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no),
-	PRIMARY KEY(class_id, student_roll_no),
-);
+--CREATE TABLE school_system.dbo.exam_result(
+--	exam_id INT FOREIGN KEY REFERENCES examination(id),
+--	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no),
+--	marks FLOAT NOT NULL,
+--	PRIMARY KEY(exam_id, student_roll_no),
+--);
 
 -- create student attendance entity
-CREATE TABLE school_system.dbo.attendance_student(
-	attendance_date DATE NOT NULL,
-	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no) NOT NULL,
-	PRIMARY KEY(attendance_date, student_roll_no),
-);
+--CREATE TABLE school_system.dbo.attendance_student(
+--	attendance_date DATE NOT NULL,
+--	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no) NOT NULL,
+--	PRIMARY KEY(attendance_date, student_roll_no),
+--);
 
 -- create time table entity
 --CREATE TABLE school_system.dbo.time_table(
@@ -309,7 +294,7 @@ END;
 CREATE PROCEDURE sp_get_sessions
 AS
 BEGIN
-	SELECT * FROM session_table
+	SELECT * FROM session_table ORDER BY start_date DESC
 END;
 
 CREATE PROCEDURE sp_get_departments
@@ -331,9 +316,26 @@ BEGIN
 	@title);
 END;
 
+CREATE PROCEDURE sp_post_class
+@code VARCHAR(5),
+@department_code VARCHAR(5),
+@session_code VARCHAR(5)
+AS
+BEGIN
+	INSERT INTO classes(
+	code,
+	department_code,
+	session_code)
+	VALUES(
+	@code,
+	@department_code,
+	@session_code)
+END;
+
 --CREATE PROCEDURE sp_post_student
 --@department_code VARCHAR(5),
 --@session_code VARCHAR(5),
+--@roll_no INT,
 --@name VARCHAR(25),
 --@father_name VARCHAR(25),
 --@mobile_no VARCHAR(12),
@@ -344,14 +346,7 @@ END;
 --@gender VARCHAR(10),
 --@active BIT
 --AS
---BEGIN
---	DECLARE @max_roll_no INT
---	
---	SELECT @max_roll_no=MAX(roll_no) 
---	FROM student 
---	WHERE department_code=@department_code
---	AND session_code=@session_code
---			
+--BEGIN			
 --	INSERT INTO student
 --	VALUES(
 --	@department_code,
@@ -359,6 +354,15 @@ END;
 --	@roll_no + 1,
 --	@name,
 --	@father_name)
+--	
+--END;
+--
+--CREATE PROCEDURE get_student_roll_no_new
+--@session_code
+--@department_code
+--AS
+--BEGIN
+--	
 --END;
 
 /*
@@ -372,6 +376,7 @@ END;
  * Insert row
  * Update row
  * Where with Like clause
+ * Order by clause
  * Stored procedures with default parameters 
- * 
+ * Procedure inside procedure
  */

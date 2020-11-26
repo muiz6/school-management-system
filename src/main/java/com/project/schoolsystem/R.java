@@ -5,15 +5,6 @@ public interface R {
     String SQL_PASSW = "Student@123";
 
     interface Fxml {
-        String HOME = "/fxml/Home.fxml";
-        String DASHBOARD = "/fxml/Dashboard.fxml";
-        String STUDENTS = "/fxml/Students.fxml";
-        String TIME_TABLE = "/fxml/Timetable.fxml";
-        String ATTENDANCE_MANAGEMENT_SYSTEM = "/fxml/AttendenceManagementSystem.fxml";
-        String DELETE_AND_EDIT_SYSTEM = "/fxml/DeleteAndEditSystem.fxml";
-        String STUDENT_FORM = "/fxml/StudentRegistrationForm.fxml";
-        String MANAGE_CLASS = "/fxml/ManageClass.fxml";
-        String TILE_CLASS = "/fxml/tile_class.fxml";
         String ADMIN_PAGE = "/fxml/admin_page.fxml";
         String TILE_DRAWER = "/fxml/tile_drawer.fxml";
         String LOGIN_PAGE = "/fxml/login_page.fxml";
@@ -23,7 +14,6 @@ public interface R {
         String TAB = "/fxml/tab.fxml";
         String ADMIN_SETTINGS = "/fxml/admin_settings.fxml";
         String TEACHER_SETTINGS = "/fxml/teacher_settings.fxml";
-        String MANAGE_TEACHERS = "/fxml/manage_teachers.fxml";
         String PERSON_TILE = "/fxml/tile_person.fxml";
         String ALERT = "/fxml/alert.fxml";
         String SESSION_TILE = "/fxml/tile_session.fxml";

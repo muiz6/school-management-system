@@ -19,7 +19,7 @@ import java.util.List;
 public class SqlServer {
     private static final String _CONNECTION_URL = "jdbc:sqlserver://localhost:1433;"
             + "databaseName=school_system;"
-            + "user="+ R.SQL_USER_NAME +";"
+            + "user=" + R.SQL_USER_NAME + ";"
             + "password=" + R.SQL_PASSW + ";";
     private static SqlServer _instance;
     private final BehaviorSubject<UserModel> _liveSignIn = BehaviorSubject.create();
@@ -94,33 +94,6 @@ public class SqlServer {
         }
     }
 
-    public void insertTeacher(TeacherModel model, OnCompletionCallback<String> callback)
-    {
-        Connection con= getConnection();
-
-        try{
-        String query = "INSERT INTO teacher(name,cnic,mobile_no,emergency_contact,address,registeration_date,dob,qualification)values(?,?,?,?,?,?,?,?)";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, model.getName());
-        ps.setString(2, model.getCnic());
-        ps.setString(3, model.getMobile_no());
-        ps.setString(4, model.getEmergency_no());
-        ps.setString(5, model.getAddress());
-        ps.setString(6, model.getRegistration_date());
-        ps.setString(7, model.getDob());
-        ps.setString(8, model.getQualification());
-
-
-        ps.execute();
-        System.out.println("Data Insert Successfully!");
-        callback.onResult(true, null);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            callback.onResult(false, null);
-        }
-    }
-
     public void searchStudent(int id, OnCompletionCallback<StudentModel> callback)
     {
         Connection con = getConnection();
@@ -159,33 +132,6 @@ public class SqlServer {
             callback.onResult(false, null);
         }
 
-    }
-
-    public void getClasses(OnCompletionCallback<List<ClassModel>> callback) {
-        final String query = "SELECT id, name, term_id, (SELECT COUNT(*) FROM class_register WHERE class_id=id) AS count FROM class";
-        boolean flagSuccess = false;
-        try (final Connection conn = getConnection()) {
-            final PreparedStatement ps = conn.prepareStatement(query);
-            final List<ClassModel> classes = new ArrayList<>();
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    final ClassModel model = new ClassModel();
-                    model.setName(rs.getString("name"));
-                    model.setId(rs.getInt("id"));
-                    model.setTermId(rs.getInt("term_id"));
-                    model.setStudentCount(rs.getInt("count"));
-                    classes.add(model);
-                }
-                callback.onResult(true, classes);
-                flagSuccess = true;
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        if (!flagSuccess) {
-            callback.onResult(false, null);
-        }
     }
 
     public UserModel getSignedUser(@Nonnull String userName, @Nonnull String password) {
@@ -458,8 +404,8 @@ public class SqlServer {
                     final List<DepartmentModel> departments = new ArrayList<>();
                     while (rs.next()) {
                         final DepartmentModel model = new DepartmentModel();
-                        model.setTitle(rs.getString("code"));
-                        model.setDepartmentCode(rs.getString("title"));
+                        model.setTitle(rs.getString("title"));
+                        model.setDepartmentCode(rs.getString("code"));
                         model.setActive(rs.getBoolean("active"));
                         departments.add(model);
                     }
@@ -483,6 +429,29 @@ public class SqlServer {
                      final PreparedStatement ps = conn.prepareStatement(query)) {
                     ps.setString(1, department.getDepartmentCode());
                     ps.setString(2, department.getTitle());
+                    ps.execute();
+                    emitter.onSuccess(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<Boolean> postClass(ClassModel classModel) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String query = "EXEC sp_post_class "
+                        + "@code=?,"
+                        + "@department_code=?,"
+                        + "@session_code=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, classModel.getClassCode());
+                    ps.setString(2, classModel.getDepartmentCode());
+                    ps.setString(3, classModel.getSessionCode());
                     ps.execute();
                     emitter.onSuccess(true);
                 } catch (SQLException e) {

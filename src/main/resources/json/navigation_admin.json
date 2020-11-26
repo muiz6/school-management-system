@@ -20,12 +20,6 @@
       "fxmlPath": "/fxml/class_page.fxml"
     },
     {
-      "id": "dest_exam",
-      "glyphName": "EDIT",
-      "title": "Exams",
-      "fxmlPath": "/fxml/Timetable.fxml"
-    },
-    {
       "id": "dest_session",
       "glyphName": "HOURGLASS",
       "title": "Session",

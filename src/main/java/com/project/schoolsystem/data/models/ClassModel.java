@@ -1,40 +1,40 @@
 package com.project.schoolsystem.data.models;
 
 public class ClassModel {
-    private String name;
-    private int id;
-    private int studentCount;
-    private int termId;
+    private String sessionCode;
+    private String departmentCode;
+    private String classCode;
+    private boolean active;
 
-    public String getName() {
-        return name;
+    public String getSessionCode() {
+        return sessionCode;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSessionCode(String sessionCode) {
+        this.sessionCode = sessionCode;
     }
 
-    public int getId() {
-        return id;
+    public String getDepartmentCode() {
+        return departmentCode;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
     }
 
-    public int getStudentCount() {
-        return studentCount;
+    public String getClassCode() {
+        return classCode;
     }
 
-    public void setStudentCount(int studentCount) {
-        this.studentCount = studentCount;
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
     }
 
-    public int getTermId() {
-        return termId;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setTermId(int termId) {
-        this.termId = termId;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

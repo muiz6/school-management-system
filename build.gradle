@@ -22,9 +22,6 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
 
-    // CalendarView
-    implementation 'com.calendarfx:view:11.8.3'
-
     // Font Awesome
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
 
