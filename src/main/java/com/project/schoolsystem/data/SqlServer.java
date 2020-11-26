@@ -53,87 +53,6 @@ public class SqlServer {
         }
     }
 
-    public Connection getConnection() {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
-            // System.out.println("Connected Successfully!");
-//                callback.onResult(true);
-            return conn;
-        } catch (ClassNotFoundException | SQLException e) {
-//            callback.onResult(false);
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void insertStudent(StudentModel model, OnCompletionCallback<String> callback)
-    {
-        Connection con= getConnection();
-
-        try{
-        String query = "INSERT INTO student(name,father_name,mobile_no,emergency_contact,registeration_date,address,dob)values(?,?,?,?,?,?,?)";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, model.getName());
-        ps.setString(2, model.getFather_name());
-        ps.setString(3, model.getMobile_no());
-        ps.setString(4, model.getEmergency_no());
-        ps.setString(5, model.getRegistration_date());
-        ps.setString(6, model.getAddress());
-        ps.setString(7, model.getDob());
-
-
-        ps.execute();
-        System.out.println("Data Insert Successfully!");
-        callback.onResult(true, null);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            callback.onResult(false, null);
-        }
-    }
-
-    public void searchStudent(int id, OnCompletionCallback<StudentModel> callback)
-    {
-        Connection con = getConnection();
-
-        try{
-            String query = "select * from student where roll_no =?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-
-            ResultSet rs = ps.executeQuery();
-
-
-            if (rs.next())
-            {
-                 StudentModel model = new StudentModel();
-                  model.setName(rs.getString("name"));
-                  model.setFather_name(rs.getString("father_name"));
-                  model.setMobile_no(rs.getString("mobile_no"));
-                  model.setEmergency_no(rs.getString("emergency_contact"));
-                  model.setRegistration_date(rs.getString("registeration_date"));
-                  model.setAddress(rs.getString("address"));
-                  model.setDob(rs.getString("dob"));
-//                jtxtprogram.setText(rs.getString("program"));
-//                jtxtcell.setText(rs.getString("cellno"));
-//
-                model.setId(id);
-                callback.onResult(true, model);
-            } else {
-                // this statement will run when data not found
-                callback.onResult(false, null);
-            }
-
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            callback.onResult(false, null);
-        }
-
-    }
-
     public UserModel getSignedUser(@Nonnull String userName, @Nonnull String password) {
         final String query = "EXEC sp_get_user @user_name=?, @password=?;";
         try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
@@ -457,6 +376,61 @@ public class SqlServer {
                 } catch (SQLException e) {
                     e.printStackTrace();
                     emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<Boolean> postStudent(StudentModel model) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String query = "EXEC sp_post_student "
+                        + "@department_code=?,"
+                        + "@session_code=?,"
+                        + "@name=?,"
+                        + "@father_name=?,"
+                        + "@cnic=?,"
+                        + "@mobile_no=?,"
+                        + "@emergency_contact=?,"
+                        + "@dob=?,"
+                        + "@address=?,"
+                        + "@gender=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, model.getDepartmentCode());
+                    ps.setString(2, model.getSessionCode());
+                    ps.setString(3, model.getName());
+                    ps.setString(4, model.getFatherName());
+                    ps.setString(5, model.getCnic());
+                    ps.setString(6, model.getPhoneNumber());
+                    ps.setString(7, model.getEmergencyContact());
+                    ps.setDate(8, model.getDob());
+                    ps.setString(9, model.getAddress());
+                    ps.setString(10, model.getGender());
+                    ps.execute();
+                    emitter.onSuccess(true);
+                }
+            }
+        });
+    }
+
+    public Single<Integer> getStudentRollNoNew(String departmentCode, String sessionCode) {
+        return Single.create(new SingleOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Integer> emitter) throws Exception {
+                final String query = "EXEC sp_get_student_roll_no_new "
+                        + "@department_code=?,"
+                        + "@session_code=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(query)) {
+                    ps.setString(1, departmentCode);
+                    ps.setString(2, sessionCode);
+                    try (final ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            emitter.onSuccess(rs.getInt("new_roll_no"));
+                        }
+                    }
                 }
             }
         });

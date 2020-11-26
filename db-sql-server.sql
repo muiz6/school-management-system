@@ -53,10 +53,11 @@ CREATE TABLE students(
 	roll_no INT NOT NULL,
 	name VARCHAR(25) NOT NULL,
 	father_name NVARCHAR(25) NOT NULL,
+	cnic VARCHAR(13),
 	mobile_no CHAR(12) NOT NULL,
 	emergency_contact CHAR(12) NOT NULL,
 	dob DATE NOT NULL,
-	address NVARCHAR(MAX) NOT NULL,
+	address VARCHAR(MAX) NOT NULL,
 	gender VARCHAR(10) NOT NULL,
 	registeration_date DATE NOT NULL DEFAULT GETDATE(),
 	active BIT NOT NULL DEFAULT 1,
@@ -67,6 +68,14 @@ CREATE TABLE class_register(
 	session_code INT FOREIGN KEY REFERENCES class(id) NOT NULL,
 	student_roll_no INT FOREIGN KEY REFERENCES student(roll_no),
 	PRIMARY KEY(class_id, student_roll_no),
+);
+
+CREATE TABLE audit_student(
+	log_date DATE NOT NULL
+);
+
+CREATE TABLE audit_user(
+	log_date DATE NOT NULL
 );
 
 -- Create exam group entity
@@ -332,38 +341,114 @@ BEGIN
 	@session_code)
 END;
 
---CREATE PROCEDURE sp_post_student
---@department_code VARCHAR(5),
---@session_code VARCHAR(5),
---@roll_no INT,
---@name VARCHAR(25),
---@father_name VARCHAR(25),
---@mobile_no VARCHAR(12),
---@emergency_contact VARCHAR(12),
---@registeration_date DATE,
---@dob DATE,
---@address VARCHAR(MAX),
---@gender VARCHAR(10),
---@active BIT
---AS
---BEGIN			
---	INSERT INTO student
---	VALUES(
---	@department_code,
---	@session_code,
---	@roll_no + 1,
---	@name,
---	@father_name)
---	
---END;
---
---CREATE PROCEDURE get_student_roll_no_new
---@session_code
---@department_code
---AS
---BEGIN
---	
---END;
+CREATE PROCEDURE sp_post_student
+@department_code VARCHAR(5),
+@session_code VARCHAR(5),
+@name VARCHAR(25),
+@father_name VARCHAR(25),
+@cnic VARCHAR(13),
+@mobile_no VARCHAR(12),
+@emergency_contact VARCHAR(12),
+@dob DATE,
+@address VARCHAR(MAX),
+@gender VARCHAR(10)
+AS
+BEGIN
+	DECLARE @roll_no INT
+	EXEC sp_student_roll_no_new @department_code, @session_code, @roll_no OUTPUT
+	
+	INSERT INTO students
+	(department_code,
+	session_code,
+	roll_no,
+	name,
+	father_name,
+	cnic,
+	mobile_no,
+	emergency_contact,
+	dob,
+	address,
+	gender)
+	VALUES(
+	@department_code,
+	@session_code,
+	@roll_no,
+	@name,
+	@father_name,
+	@cnic,
+	@mobile_no,
+	@emergency_contact,
+	@dob,
+	@address,
+	@gender)
+END;
+
+ALTER PROCEDURE sp_student_roll_no_new
+@department_code VARCHAR(5),
+@session_code VARCHAR(5),
+@roll_no INT OUTPUT
+AS
+BEGIN
+	DECLARE @max_roll_no INT
+	
+	SELECT @max_roll_no=MAX(roll_no)
+	FROM students
+	WHERE department_code=@department_code
+	AND session_code=@session_code
+	
+	IF (@max_roll_no IS NULL) 
+	BEGIN
+		SET @roll_no=1
+	END ELSE
+	BEGIN
+		SET @roll_no=@max_roll_no + 1
+	END
+END;
+
+ALTER PROCEDURE sp_get_student_roll_no_new
+@department_code VARCHAR(5),
+@session_code VARCHAR(5)
+AS
+BEGIN
+	DECLARE @new_roll_no INT
+	
+	SELECT @new_roll_no=MAX(roll_no)
+	FROM students
+	WHERE department_code=@department_code
+	AND session_code=@session_code
+	
+	IF (@new_roll_no IS NULL) 
+	BEGIN
+		SET @new_roll_no=1
+	END ELSE
+	BEGIN
+		SET @new_roll_no=@new_roll_no + 1
+	END
+	
+	SELECT @new_roll_no AS new_roll_no
+END;
+
+CREATE TRIGGER tr_on_insert_student
+ON students
+FOR INSERT
+AS
+BEGIN
+	PRINT('tr_on_insert_student executed')
+	INSERT INTO audit_student VALUES(GETDATE())
+END;
+
+CREATE TRIGGER tr_on_update_user
+ON users
+FOR UPDATE
+AS
+BEGIN
+	PRINT('tr_on_update_user executed')
+	INSERT INTO audit_user VALUES(GETDATE())
+END;
+
+ALTER VIEW vw_admin
+AS
+SELECT * FROM users WHERE user_role=(SELECT user_role FROM users WHERE user_name='admin1');
 
 /*
  * [Concepts Covered]
@@ -377,6 +462,10 @@ END;
  * Update row
  * Where with Like clause
  * Order by clause
- * Stored procedures with default parameters 
+ * Stored procedures with default parameters
+ * Procedure with output parameter 
  * Procedure inside procedure
+ * Triggers for inert and update
+ * View
+ * Subquery
  */

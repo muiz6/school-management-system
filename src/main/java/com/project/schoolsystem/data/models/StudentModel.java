@@ -1,91 +1,52 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.project.schoolsystem.data.models;
 
-/**
- *
- * @author msufwan
- */
-public class StudentModel {
+import java.sql.Date;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    private int id;
+public class StudentModel implements GenderModel {
+    private String departmentCode;
+    private String sessionCode;
+    private int rollNo;
     private String name;
-    private String father_name;
-    private String mobile_no;
-    private String emergency_no;
-    private String registration_date;
-    private String dob;
-    private String active;
+    private String fatherName;
+    private String phoneNo;
+    private String emergencyContact;
+    private Date registrationDate;
+    private Date dob;
+    private boolean active = true;
     private String address;
+    private String gender;
+    private String cnic;
 
-
-    public String getAddress() {
-        return address;
+    public String getCnic() {
+        return cnic;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCnic(String cnic) {
+        this.cnic = cnic;
     }
 
-
-    public String getFather_name() {
-        return father_name;
+    public String getDepartmentCode() {
+        return departmentCode;
     }
 
-    public void setFather_name(String father_name) {
-        this.father_name = father_name;
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
     }
 
-    public String getMobile_no() {
-        return mobile_no;
+    public String getSessionCode() {
+        return sessionCode;
     }
 
-    public void setMobile_no(String mobile_no) {
-        this.mobile_no = mobile_no;
+    public void setSessionCode(String sessionCode) {
+        this.sessionCode = sessionCode;
     }
 
-    public String getEmergency_no() {
-        return emergency_no;
+    public int getRollNo() {
+        return rollNo;
     }
 
-    public void setEmergency_no(String emergency_no) {
-        this.emergency_no = emergency_no;
-    }
-
-    public String getRegistration_date() {
-        return registration_date;
-    }
-
-    public void setRegistration_date(String registration_date) {
-        this.registration_date = registration_date;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-
-    public String getActive() {
-        return active;
-    }
-
-    public void setActive(String active) {
-        this.active = active;
+    public void setRollNo(int rollNo) {
+        this.rollNo = rollNo;
     }
 
     public String getName() {
@@ -96,5 +57,67 @@ public class StudentModel {
         this.name = name;
     }
 
+    public String getFatherName() {
+        return fatherName;
+    }
 
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNo;
+    }
+
+    public void setPhoneNumber(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

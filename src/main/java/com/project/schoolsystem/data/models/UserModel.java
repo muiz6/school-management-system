@@ -2,12 +2,9 @@ package com.project.schoolsystem.data.models;
 
 import java.sql.Date;
 
-public class UserModel {
+public class UserModel implements GenderModel {
     public static final String ROLE_ADMIN = "admin";
     public static final String ROLE_TEACHER = "teacher";
-    public static final String GENDER_MALE = "male";
-    public static final String GENDER_FEMALE = "female";
-
     private String userName;
     private String address;
     private String cnic;
