@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.geometry.Insets?>
-<?import com.jfoenix.controls.JFXButton?>
-<VBox xmlns="http://javafx.com/javafx"
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<VBox fx:id="root" xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         alignment="CENTER"
+        fx:controller="com.project.schoolsystem.ui.session.EditSessionPage"
         prefHeight="400.0" prefWidth="600.0" spacing="10" stylesheets="/css/theme.css">
-    <TextField promptText="Session Code" disable="true"/>
-    <TextField promptText="Session Title"/>
+    <TextField promptText="Session Code" disable="true" fx:id="fieldSessionCode"/>
+    <TextField promptText="Session Title" fx:id="fieldTitle"/>
     <HBox alignment="CENTER_LEFT">
         <Label text="Start Date"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <JFXDatePicker/>
+        <JFXDatePicker fx:id="datePickerStart"/>
     </HBox>
     <HBox alignment="CENTER_LEFT">
         <Label text="End Date"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <JFXDatePicker/>
+        <JFXDatePicker fx:id="datePickerEnd"/>
     </HBox>
 
-    <HBox>
-        <JFXButton text="Update" styleClass="btn-primary" prefWidth="100"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <JFXButton text="Disable" styleClass="btn-primary" prefWidth="100"/>
-    </HBox>
+    <JFXButton text="Update" styleClass="btn-primary" prefWidth="100" onAction="#onUpdate"/>
 
     <padding>
         <Insets left="100" right="100"/>

@@ -290,6 +290,12 @@ BEGIN
 	OR user_name LIKE CONCAT('%', @query, '%')
 END;
 
+CREATE PROCEDURE sp_get_sessions
+AS
+BEGIN
+	SELECT * FROM session_table ORDER BY start_date DESC
+END;
+
 CREATE PROCEDURE sp_post_session
 @code VARCHAR(5),
 @title VARCHAR(MAX),
@@ -302,10 +308,27 @@ BEGIN
 	(@code, @title, @start_date, @end_date)
 END;
 
-CREATE PROCEDURE sp_get_sessions
+CREATE PROCEDURE sp_get_sessions_by_search
+@query VARCHAR(MAX)
 AS
 BEGIN
-	SELECT * FROM session_table ORDER BY start_date DESC
+	SELECT * FROM session_table
+	WHERE title LIKE CONCAT('%', @query, '%')
+	OR code LIKE CONCAT('%', @query, '%')
+END;
+
+CREATE PROCEDURE sp_patch_session
+@session_code VARCHAR(5),
+@session_title VARCHAR(MAX),
+@start_date DATE,
+@end_date DATE
+AS
+BEGIN
+	UPDATE session_table
+	SET title = @session_title,
+	start_date = @start_date,
+	end_date = @end_date
+	WHERE code = @session_code
 END;
 
 ALTER PROCEDURE sp_get_departments

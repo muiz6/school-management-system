@@ -36,6 +36,7 @@ public interface R {
     interface Id {
         String DEST_EDIT_TEACHER = "dest_edit_teacher";
         String DEST_EDIT_STUDENT = "dest_edit_student";
+        String DEST_EDIT_SESSION = "dest_edit_session";
     }
 
     interface NavArgs {
@@ -44,5 +45,6 @@ public interface R {
          */
         String USER_MODEL = "user_model";
         String STUDENT_MODEL = "student_model";
+        String SESSION_MODEL = "session_model";
     }
 }

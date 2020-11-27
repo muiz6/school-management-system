@@ -287,6 +287,32 @@ public class SqlServer {
         });
     }
 
+    public Single<List<SessionModel>> getSessions(String query) {
+        return Single.create(new SingleOnSubscribe<List<SessionModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<SessionModel>> emitter) throws Exception {
+                final String sql = "EXEC sp_get_sessions_by_search "
+                        + "@query=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, query);
+                    try (final ResultSet rs = ps.executeQuery()) {
+                        final List<SessionModel> sessions = new ArrayList<>();
+                        while (rs.next()) {
+                            final SessionModel model = new SessionModel();
+                            model.setSessionCode(rs.getString("code"));
+                            model.setSessionTitle(rs.getString("title"));
+                            model.setStartDate(rs.getDate("start_date"));
+                            model.setEndDate(rs.getDate("end_date"));
+                            sessions.add(model);
+                        }
+                        emitter.onSuccess(sessions);
+                    }
+                }
+            }
+        });
+    }
+
     public Single<Boolean> postSession(SessionModel session) {
         return Single.create(new SingleOnSubscribe<Boolean>() {
             @Override
@@ -307,6 +333,28 @@ public class SqlServer {
                 } catch (SQLException e) {
                     e.printStackTrace();
                     emitter.onError(e);
+                }
+            }
+        });
+    }
+
+    public Single<Boolean> patchSession(SessionModel model) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String sql = "EXEC sp_patch_session "
+                        + "@session_code=?,"
+                        + "@session_title=?,"
+                        + "@start_date=?,"
+                        + "@end_date=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, model.getSessionCode());
+                    ps.setString(2, model.getSessionTitle());
+                    ps.setDate(3, model.getStartDate());
+                    ps.setDate(4, model.getEndDate());
+                    ps.execute();
+                    emitter.onSuccess(true);
                 }
             }
         });
