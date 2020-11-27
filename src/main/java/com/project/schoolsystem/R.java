@@ -35,6 +35,7 @@ public interface R {
 
     interface Id {
         String DEST_EDIT_TEACHER = "dest_edit_teacher";
+        String DEST_EDIT_STUDENT = "dest_edit_student";
     }
 
     interface NavArgs {

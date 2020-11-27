@@ -357,7 +357,7 @@ END;
 CREATE PROCEDURE sp_get_students
 AS
 BEGIN
-	SELECT * FROM students WHERE active=1 ORDER BY registeration_date DESC
+	SELECT * FROM students WHERE active=1 ORDER BY registration_date DESC
 END;
 
 CREATE PROCEDURE sp_get_students_by_search
@@ -408,6 +408,28 @@ BEGIN
 	@dob,
 	@address,
 	@gender)
+END;
+
+CREATE PROCEDURE sp_patch_student
+@department_code VARCHAR(5),
+@session_code VARCHAR(5),
+@roll_no INT,
+@name VARCHAR(25),
+@father_name NVARCHAR(25),
+@cnic VARCHAR(13),
+@mobile_no VARCHAR(12),
+@emergency_contact VARCHAR(12),
+@dob DATE,
+@address VARCHAR(MAX),
+@gender VARCHAR(10),
+@active BIT
+AS
+BEGIN
+	UPDATE students
+	SET name=@name
+	WHERE department_code = @department_code
+	AND session_code = @session_code
+	AND roll_no = @roll_no
 END;
 
 CREATE PROCEDURE sp_student_roll_no_new

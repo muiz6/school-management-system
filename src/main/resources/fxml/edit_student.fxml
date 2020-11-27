@@ -56,7 +56,7 @@
                 prefWidth="100" prefRowCount="2"/>
     </GridPane>
     <HBox>
-        <JFXButton prefWidth="100" text="Add" styleClass="btn-secondary" onAction="#onUpdate"/>
+        <JFXButton prefWidth="100" text="Save" styleClass="btn-secondary" onAction="#onUpdate"/>
         <Region HBox.hgrow="ALWAYS"/>
         <JFXButton prefWidth="100" text="Deactivate" styleClass="btn-secondary" onAction="#onDeactivate"/>
     </HBox>

@@ -432,10 +432,45 @@ public class SqlServer {
                         model.setDob(rs.getDate("dob"));
                         model.setGender(rs.getString("gender"));
                         model.setActive(rs.getBoolean("active"));
+                        model.setEmergencyContact(rs.getString("emergency_contact"));
                         model.setAddress(rs.getString("address"));
                         students.add(model);
                     }
                     emitter.onSuccess(students);
+                }
+            }
+        });
+    }
+
+    public Single<List<StudentModel>> getStudents(String queryName) {
+        return Single.create(new SingleOnSubscribe<List<StudentModel>>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<List<StudentModel>> emitter) throws Exception {
+                final String sql = "EXEC sp_get_students_by_search @query_name=?";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, queryName);
+                    try (final ResultSet rs = ps.executeQuery()) {
+                        final List<StudentModel> students = new ArrayList<>();
+                        while (rs.next()) {
+                            final StudentModel model = new StudentModel();
+                            model.setDepartmentCode(rs.getString("department_code"));
+                            model.setSessionCode(rs.getString("session_code"));
+                            model.setRollNo(rs.getInt("roll_no"));
+                            model.setRegistrationDate(rs.getDate("registration_date"));
+                            model.setName(rs.getString("name"));
+                            model.setFatherName(rs.getString("father_name"));
+                            model.setPhoneNumber(rs.getString("mobile_no"));
+                            model.setCnic(rs.getString("cnic"));
+                            model.setDob(rs.getDate("dob"));
+                            model.setGender(rs.getString("gender"));
+                            model.setActive(rs.getBoolean("active"));
+                            model.setAddress(rs.getString("address"));
+                            model.setEmergencyContact(rs.getString("emergency_contact"));
+                            students.add(model);
+                        }
+                        emitter.onSuccess(students);
+                    }
                 }
             }
         });
@@ -468,6 +503,44 @@ public class SqlServer {
                     ps.setDate(8, model.getDob());
                     ps.setString(9, model.getAddress());
                     ps.setString(10, model.getGender());
+                    ps.execute();
+                    emitter.onSuccess(true);
+                }
+            }
+        });
+    }
+
+    public Single<Boolean> patchStudent(StudentModel model) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String sql = "EXEC sp_patch_student "
+                        + "@department_code=?,"
+                        + "@session_code=?,"
+                        + "@roll_no=?,"
+                        + "@name=?,"
+                        + "@father_name=?,"
+                        + "@cnic=?,"
+                        + "@mobile_no=?,"
+                        + "@emergency_contact=?,"
+                        + "@dob=?,"
+                        + "@address=?,"
+                        + "@gender=?,"
+                        + "@active=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, model.getDepartmentCode());
+                    ps.setString(2, model.getSessionCode());
+                    ps.setInt(3, model.getRollNo());
+                    ps.setString(4, model.getName());
+                    ps.setString(5, model.getFatherName());
+                    ps.setString(6, model.getCnic());
+                    ps.setString(7, model.getPhoneNumber());
+                    ps.setString(8, model.getEmergencyContact());
+                    ps.setDate(9, model.getDob());
+                    ps.setString(10, model.getAddress());
+                    ps.setString(11, model.getGender());
+                    ps.setBoolean(12, model.isActive());
                     ps.execute();
                     emitter.onSuccess(true);
                 }

@@ -60,7 +60,7 @@
             </padding>
         </HBox>
         <Region prefHeight="10"/>
-        <JFXListView fx:id="teacherListV" VBox.vgrow="ALWAYS"/>
+        <JFXListView fx:id="studentListV" VBox.vgrow="ALWAYS"/>
 
         <padding>
             <Insets top="10"/>
