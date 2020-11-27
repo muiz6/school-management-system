@@ -2,7 +2,7 @@
 
 <?import com.jfoenix.controls.*?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -84,23 +84,13 @@
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="bg-background"
                     GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2">
                 <children>
-                    <Label text="Search"/>
-                    <Region prefHeight="10"/>
-                    <HBox maxWidth="Infinity">
-                        <HBox alignment="CENTER"
-                                style="-fx-border-color: grey; -fx-border-width: 1; -fx-border-radius: 3;"
-                                HBox.hgrow="ALWAYS">
-                            <FontAwesomeIconView glyphName="SEARCH">
-                                <HBox.margin>
-                                    <Insets right="5.0"/>
-                                </HBox.margin>
-                            </FontAwesomeIconView>
-                            <TextField fx:id="fieldSearch" promptText="Search" styleClass="text-field-clear"
-                                    HBox.hgrow="ALWAYS"/>
-                            <padding>
-                                <Insets left="5" right="5"/>
-                            </padding>
-                        </HBox>
+                    <HBox maxWidth="Infinity" alignment="CENTER_LEFT">
+                        <Label text="All Departments">
+                            <font>
+                                <Font name="System Bold" size="13"/>
+                            </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS"/>
                         <JFXButton onAction="#onRefresh" prefWidth="5">
                             <graphic>
                                 <FontAwesomeIconView fill="grey" glyphName="REFRESH"/>

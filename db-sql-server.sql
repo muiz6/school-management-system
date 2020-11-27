@@ -308,10 +308,10 @@ BEGIN
 	SELECT * FROM session_table ORDER BY start_date DESC
 END;
 
-CREATE PROCEDURE sp_get_departments
+ALTER PROCEDURE sp_get_departments
 AS
 BEGIN
-	SELECT * FROM departments;
+	SELECT * FROM departments WHERE active=1
 END;
 
 CREATE PROCEDURE sp_post_department
@@ -325,6 +325,18 @@ BEGIN
 	VALUES(
 	@code,
 	@title);
+END;
+
+CREATE PROCEDURE sp_patch_department
+@department_code VARCHAR(5),
+@title VARCHAR(MAX),
+@active BIT = true
+AS
+BEGIN
+	UPDATE departments 
+	SET title = @title,
+	active = @active
+	WHERE code = @department_code
 END;
 
 CREATE PROCEDURE sp_get_classes_by_department_session
@@ -426,7 +438,15 @@ CREATE PROCEDURE sp_patch_student
 AS
 BEGIN
 	UPDATE students
-	SET name=@name
+	SET name = @name,
+	father_name = @father_name,
+	cnic = @cnic,
+	mobile_no = @mobile_no,
+	emergency_contact = @emergency_contact,
+	dob = @dob,
+	address = @address,
+	gender = @gender,
+	active = @active
 	WHERE department_code = @department_code
 	AND session_code = @session_code
 	AND roll_no = @roll_no

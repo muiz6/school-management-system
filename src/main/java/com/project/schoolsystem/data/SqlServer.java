@@ -358,6 +358,26 @@ public class SqlServer {
         });
     }
 
+    public Single<Boolean> patchDepartment(DepartmentModel model) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String sql = "EXEC sp_patch_department "
+                        + "@department_code=?,"
+                        + "@title=?,"
+                        + "@active=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, model.getDepartmentCode());
+                    ps.setString(2, model.getTitle());
+                    ps.setBoolean(3, model.isActive());
+                    ps.execute();
+                    emitter.onSuccess(true);
+                }
+            }
+        });
+    }
+
     public Single<List<ClassModel>> getClasses(@NonNull String departmentCode,
             @NonNull String sessionCode) {
         return Single.create(new SingleOnSubscribe<List<ClassModel>>() {
