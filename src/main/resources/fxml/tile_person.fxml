@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<HBox fx:id="root" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="200.0" spacing="10"
+        xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.project.schoolsystem.ui.PersonTile">
+    <FontAwesomeIconView glyphName="USER"/>
+    <VBox HBox.hgrow="ALWAYS">
+        <Label fx:id="labelName"/>
+        <Label fx:id="labelUserName">
+            <font>
+                <Font name="System Italic" size="11.0"/>
+            </font>
+        </Label>
+    </VBox>
+
+    <padding>
+        <Insets bottom="2" left="5" right="5" top="2"/>
+    </padding>
+</HBox>

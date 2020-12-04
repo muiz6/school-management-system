@@ -1,0 +1,165 @@
+* {
+    -color-primary: #3a133e;
+    -color-primary-variant: #522257;
+    -color-secondary: #4e9689;
+    -color-secondary-variant: #41727e;
+    -color-background: white;
+    -color-surface: #ebebeb;
+    -color-on-secondary: white;
+    -color-on-primary: white;
+    -color-on-background: black;
+    -color-on-surface: black;
+}
+
+/*style classes*/
+.bg-primary {
+    -fx-background-color: -color-primary;
+}
+
+.bg-primary-variant {
+    -fx-background-color: -color-primary-variant;
+}
+
+.big-secondary {
+    -fx-background-color: -color-secondary;
+}
+
+.bg-background {
+    -fx-background-color: -color-background;
+}
+
+.bg-surface {
+    -fx-background-color: -color-surface;
+}
+
+.bg-transparent {
+    -fx-background-color: transparent;
+}
+
+.text-on-primary {
+    -fx-text-fill: -color-on-primary;
+}
+
+.text-on-secondary {
+    -fx-text-fill: -color-on-secondary;
+}
+
+.text-on-surface {
+    -fx-text-fill: -color-on-surface;
+}
+
+.text-on-background {
+    -fx-text-fill: -color-on-background;
+}
+
+.btn-primary {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-on-primary;
+}
+
+.btn-secondary {
+    -fx-background-color: -color-secondary;
+    -fx-text-fill: -color-on-secondary;
+}
+
+.text-field-clear {
+    -fx-text-box-border: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+ /* JFX Tab Pane */
+.jfx-tab-pane .headers-region {
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .headers-region {
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .tab-selected-line {
+    -fx-stroke: -fx-accent;
+}
+
+.jfx-tab-pane .tab-header-area .jfx-rippler {
+    -jfx-rippler-fill: -fx-focus-color;
+}
+
+.tab-selected-line {
+    -fx-background-color: #4e9689;
+}
+
+/* List View Style*/
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #4e9689;
+    -fx-text-fill: white;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #41727e;
+    -fx-text-fill: white;
+}
+
+.list-cell:filled {
+    -fx-background-color: transparent;
+}
+
+/* Scroll Bar Style */
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color :transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+}
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 0.0 10.0 0.0;
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+ .scroll-bar .increment-arrow,
+ .scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.15em 0.0;
+}
+
+ .scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.0 0.15em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical {
+    -fx-background-color :transparent;
+}

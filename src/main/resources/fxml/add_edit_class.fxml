@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane fx:id="root" xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.project.schoolsystem.ui.AddEditClass"
+        prefHeight="400.0" prefWidth="600.0" hgap="50" stylesheets="/css/theme.css">
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50"/>
+        <ColumnConstraints percentWidth="50"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="10"/>
+        <RowConstraints percentHeight="90"/>
+    </rowConstraints>
+
+    <HBox GridPane.columnSpan="2" alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <Label text="Manage Classes">
+            <font>
+                <Font size="16" name="System Bold"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <VBox GridPane.rowIndex="1" GridPane.columnIndex="0" alignment="TOP_CENTER" spacing="10">
+        <Label text="Add Class">
+            <font>
+                <Font name="System Bold"/>
+            </font>
+        </Label>
+        <HBox>
+            <Label text="Session"/>
+        </HBox>
+        <JFXComboBox maxWidth="Infinity" fx:id="comboxSessionAdd"/>
+        <HBox>
+            <Label text="Department"/>
+        </HBox>
+        <JFXComboBox maxWidth="Infinity" fx:id="comboxDepartmentAdd"/>
+        <HBox>
+            <Label text="Class Code"/>
+        </HBox>
+        <JFXTextField fx:id="fieldClassCode"/>
+        <JFXButton text="Add" prefWidth="100" styleClass="btn-primary" onAction="#onAdd"/>
+    </VBox>
+
+    <VBox GridPane.rowIndex="1" GridPane.columnIndex="1" alignment="TOP_CENTER" spacing="10">
+        <Label text="Edit Class">
+            <font>
+                <Font name="System Bold"/>
+            </font>
+        </Label>
+        <HBox>
+            <Label text="Session"/>
+        </HBox>
+        <JFXComboBox maxWidth="Infinity" fx:id="comboxSessionEdit"/>
+        <HBox>
+            <Label text="Department"/>
+        </HBox>
+        <JFXComboBox maxWidth="Infinity" fx:id="comboxDepartmentEdit"/>
+        <HBox>
+            <Label text="Class Code"/>
+        </HBox>
+        <JFXComboBox maxWidth="Infinity" fx:id="comboxClassEdit"/>
+        <JFXButton text="Deactivate" prefWidth="100" styleClass="btn-primary" onAction="#onDeactivate"/>
+    </VBox>
+
+    <padding>
+        <Insets left="50" right="50"/>
+    </padding>
+</GridPane>

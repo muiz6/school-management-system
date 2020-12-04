@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox fx:id="root" xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.project.schoolsystem.ui.students.EditStudentPage"
+        prefHeight="400.0" prefWidth="600.0" alignment="CENTER" spacing="10" stylesheets="/css/theme.css">
+    <fx:define>
+        <ToggleGroup fx:id="toggleGroupGender"/>
+    </fx:define>
+
+    <GridPane vgap="10" hgap="10">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="40"/>
+            <ColumnConstraints percentWidth="60"/>
+        </columnConstraints>
+
+        <Label text="Registration Date" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <JFXDatePicker fx:id="datePickerReg" disable="true" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                maxWidth="Infinity"/>
+
+        <Label text="Roll No" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldRollNo" disable="true" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Name" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldName" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Parent Name" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldParentName" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Date of Birth" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <JFXDatePicker fx:id="datePickerDob" GridPane.rowIndex="6" GridPane.columnIndex="1" maxWidth="Infinity"
+                minWidth="10"/>
+
+        <Label text="Gender" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+        <HBox GridPane.rowIndex="7" GridPane.columnIndex="1" alignment="CENTER_LEFT">
+            <JFXRadioButton fx:id="btnRadioMale" text="Male" toggleGroup="$toggleGroupGender"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <JFXRadioButton fx:id="btnRadioFemale" text="Female" toggleGroup="$toggleGroupGender"/>
+        </HBox>
+
+        <Label text="Contact" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldContact" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+        <Label text="Emergency Contact" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldEmergencyContact" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+        <Label text="B.Form/CNIC" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="fieldCnic" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+
+        <Label text="Address" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+        <JFXTextArea fx:id="fieldAddress" GridPane.rowIndex="11" GridPane.columnIndex="1"
+                prefWidth="100" prefRowCount="2"/>
+    </GridPane>
+    <HBox>
+        <JFXButton prefWidth="100" text="Save" styleClass="btn-secondary" onAction="#onUpdate"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <JFXButton prefWidth="100" text="Deactivate" styleClass="btn-secondary" onAction="#onDeactivate"/>
+    </HBox>
+
+    <padding>
+        <Insets left="50" right="50"/>
+    </padding>
+</VBox>

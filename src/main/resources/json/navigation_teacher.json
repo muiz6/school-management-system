@@ -1,0 +1,17 @@
+{
+  "main_title": "Admin Panel",
+  "destinations": [
+    {
+      "id": "dest_student",
+      "glyphName": "GRADUATION_CAP",
+      "title": "Students",
+      "fxmlPath": "/fxml/manage_students.fxml"
+    },
+    {
+      "id": "dest_class",
+      "glyphName": "BOOK",
+      "title": "Classes",
+      "fxmlPath": "/fxml/class_page.fxml"
+    }
+  ]
+}

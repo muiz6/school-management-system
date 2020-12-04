@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.project.schoolsystem.ui.manageteachers.ManageTeacherPage"
+        prefHeight="400.0" prefWidth="600.0" stylesheets="/css/theme.css" styleClass="bg-background">
+    <columnConstraints>
+        <ColumnConstraints percentWidth="60"/>
+        <ColumnConstraints percentWidth="40"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="100"/>
+    </rowConstraints>
+
+    <VBox GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="bg-surface" alignment="CENTER">
+        <Label styleClass="text-on-surface" text="Manage Teachers">
+            <font>
+                <Font name="System Bold" size="13.0"/>
+            </font>
+        </Label>
+        <Region prefHeight="10"/>
+        <GridPane fx:id="tabHeader" prefHeight="30"/>
+        <AnchorPane fx:id="tabContent" VBox.vgrow="ALWAYS"/>
+
+        <padding>
+            <Insets top="10"/>
+        </padding>
+    </VBox>
+    <VBox GridPane.rowIndex="0" GridPane.columnIndex="1" alignment="TOP_CENTER">
+        <Label text="Search"/>
+        <Region prefHeight="10"/>
+        <HBox maxWidth="Infinity">
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER"
+                    style="-fx-border-color: grey; -fx-border-width: 1; -fx-border-radius: 3;">
+                <FontAwesomeIconView glyphName="SEARCH">
+                    <HBox.margin>
+                        <Insets right="5.0"/>
+                    </HBox.margin>
+                </FontAwesomeIconView>
+                <TextField fx:id="fieldSearch" promptText="Search" HBox.hgrow="ALWAYS" styleClass="text-field-clear"/>
+                <padding>
+                    <Insets left="5" right="5"/>
+                </padding>
+            </HBox>
+            <JFXButton prefWidth="5" onAction="#onRefresh">
+                <graphic>
+                    <FontAwesomeIconView glyphName="REFRESH" fill="grey"/>
+                </graphic>
+            </JFXButton>
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </HBox>
+        <Region prefHeight="10"/>
+        <JFXListView fx:id="teacherListV" VBox.vgrow="ALWAYS"/>
+
+        <padding>
+            <Insets top="10"/>
+        </padding>
+    </VBox>
+</GridPane>

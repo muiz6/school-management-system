@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.schoolsystem.ui.session.SessionPage">
+    <stylesheets>
+        <String fx:value="/css/theme.css" />
+    </stylesheets>
+    <GridPane maxWidth="Infinity" VBox.vgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="70" />
+            <ColumnConstraints percentWidth="30" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints percentHeight="100" />
+        </rowConstraints>
+      <children>
+         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="bg-surface">
+             <children>
+                 <Label styleClass="text-on-surface" text="Manage Sessions">
+                     <font>
+                         <Font name="System Bold" size="13.0" />
+                     </font>
+                 </Label>
+                 <Region prefHeight="10" />
+                 <GridPane fx:id="tabHeader" prefHeight="30" />
+                 <AnchorPane fx:id="tabContent" VBox.vgrow="ALWAYS" />
+             </children>
+             <padding>
+                 <Insets top="10" />
+             </padding>
+         </VBox>
+         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="bg-background" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <children>
+                <Label text="Search" />
+                <Region prefHeight="10" />
+                <HBox maxWidth="Infinity">
+                    <HBox HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-border-color: grey; -fx-border-width: 1; -fx-border-radius: 3;">
+                        <FontAwesomeIconView glyphName="SEARCH">
+                            <HBox.margin>
+                                <Insets right="5.0"/>
+                            </HBox.margin>
+                        </FontAwesomeIconView>
+                        <TextField fx:id="fieldSearch" promptText="Search" HBox.hgrow="ALWAYS"
+                                styleClass="text-field-clear"/>
+                        <padding>
+                            <Insets left="5" right="5"/>
+                        </padding>
+                    </HBox>
+                    <JFXButton prefWidth="5" onAction="#onRefresh">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="REFRESH" fill="grey"/>
+                        </graphic>
+                    </JFXButton>
+                    <padding>
+                        <Insets left="10"/>
+                    </padding>
+                </HBox>
+                <Region prefHeight="10" />
+                <JFXListView VBox.vgrow="ALWAYS" fx:id="sessionListV"/>
+            </children>
+             <padding>
+                 <Insets top="10" />
+             </padding>
+         </VBox>
+      </children>
+    </GridPane>
+</VBox>

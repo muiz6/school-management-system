@@ -1,0 +1,15 @@
+{
+  "main_title": "Manage Sessions",
+  "destinations": [
+    {
+      "id": "dest_add_session",
+      "title": "Add Session",
+      "fxmlPath": "/fxml/add_session.fxml"
+    },
+    {
+      "id": "dest_edit_session",
+      "title": "Edit Session",
+      "fxmlPath": "/fxml/edit_session.fxml"
+    }
+  ]
+}

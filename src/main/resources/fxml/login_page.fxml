@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane fx:id="root" styleClass="bg-background" prefHeight="500" prefWidth="800"
+        xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.project.schoolsystem.ui.LoginPage">
+    <stylesheets>
+        <String fx:value="/css/theme.css"/>
+    </stylesheets>
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="35"/>
+        <ColumnConstraints percentWidth="65"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="100"/>
+    </rowConstraints>
+
+    <VBox styleClass="bg-primary" GridPane.columnIndex="0" GridPane.rowIndex="0">
+
+    </VBox>
+    <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <padding>
+            <Insets left="125" right="125"/>
+        </padding>
+
+        <VBox alignment="CENTER" spacing="10">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="92.0" prefHeight="23.0"
+                    prefWidth="196.0" text="Sign In" textAlignment="CENTER" textFill="#300d33">
+                <font>
+                    <Font name="Arial" size="17.0"/>
+                </font>
+            </Label>
+            <TextField fx:id="fieldUserName" layoutX="119.0" layoutY="218.0" prefHeight="32.0" prefWidth="258.0"
+                    promptText="Username"/>
+            <PasswordField fx:id="fieldPwd" layoutX="119.0" layoutY="268.0" prefHeight="32.0" prefWidth="258.0"
+                    promptText="Password"/>
+            <JFXButton onAction="#onSignIn" fx:id="btnSignIn" layoutX="189.0" layoutY="375.0" prefHeight="32.0"
+                    prefWidth="118.0"
+                    style="-fx-background-color: #300d33; -fx-background-radius: 200; -fx-text-fill: white;"
+                    text="SIGN IN"/>
+        </VBox>
+    </VBox>
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+</GridPane>

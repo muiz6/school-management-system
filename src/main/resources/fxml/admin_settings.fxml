@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<GridPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="/css/theme.css"
+        xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.project.schoolsystem.ui.settings.AdminSettingPage">
+    <fx:define>
+        <ToggleGroup fx:id="toggleGroupGender"/>
+    </fx:define>
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="65"/>
+        <ColumnConstraints percentWidth="35"/>
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints percentHeight="100"/>
+    </rowConstraints>
+
+    <VBox alignment="CENTER" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Label text="Settings">
+            <font>
+                <Font size="16.0" name="System Bold"/>
+            </font>
+        </Label>
+        <HBox>
+            <Label text="Personal Settings">
+                <font>
+                    <Font size="12.0" name="System Bold"/>
+                </font>
+            </Label>
+        </HBox>
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="60"/>
+            </columnConstraints>
+
+            <Label text="Registration Date" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <JFXDatePicker fx:id="datePickerReg" disable="true" maxWidth="Infinity" minWidth="10"
+                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="Name" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <JFXTextField fx:id="fieldName" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Date of Birth" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <JFXDatePicker fx:id="datePickerDob" maxWidth="Infinity" minWidth="10" GridPane.columnIndex="1"
+                    GridPane.rowIndex="4"/>
+
+            <Label text="Gender" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <JFXRadioButton fx:id="btnRadioMale" text="Male" toggleGroup="$toggleGroupGender"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <JFXRadioButton fx:id="btnRadioFemale" text="Female" toggleGroup="$toggleGroupGender"/>
+            </HBox>
+
+            <Label text="Contact" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <JFXTextField fx:id="fieldContact" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+            <Label text="Emergency Contact" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+            <JFXTextField fx:id="fieldEmergencyContact" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+            <Label text="Qualification" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+            <JFXTextField fx:id="fieldQualification" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+            <Label text="Address" GridPane.columnIndex="0" GridPane.rowIndex="9"/>
+            <TextArea fx:id="fieldAddress" prefHeight="50" prefWidth="100" GridPane.columnIndex="1"
+                    GridPane.rowIndex="9"/>
+            <rowConstraints>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+            </rowConstraints>
+        </GridPane>
+        <JFXButton onAction="#onSaveInfo" prefWidth="100" styleClass="btn-primary" text="Save"/>
+
+        <HBox>
+            <Label text="Administrative Settings">
+                <font>
+                    <Font name="System Bold" size="12.0"/>
+                </font>
+            </Label>
+            <padding>
+                <Insets top="25"/>
+            </padding>
+        </HBox>
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="60"/>
+            </columnConstraints>
+            <Label text="Default Teacher Password: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <JFXTextField fx:id="fieldDefaultTeacherPwd" HBox.hgrow="ALWAYS" GridPane.rowIndex="0"
+                    GridPane.columnIndex="1"/>
+        </GridPane>
+        <JFXButton styleClass="btn-primary" onAction="#onSaveAdminSettings" text="Save" prefWidth="100"/>
+
+        <padding>
+            <Insets top="25" bottom="25" left="50" right="50"/>
+        </padding>
+    </VBox>
+
+    <VBox alignment="TOP_CENTER" spacing="10" styleClass="bg-surface" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <padding>
+            <Insets bottom="25" left="10" right="10" top="25"/>
+        </padding>
+
+        <Label text="Change Password">
+            <font>
+                <Font name="System Bold" size="13.0"/>
+            </font>
+        </Label>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="User Name"/>
+            <TextField fx:id="fieldUserName" disable="true" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <PasswordField fx:id="fieldOldPwd" promptText="Current Password"/>
+        <PasswordField fx:id="fieldNewPwd" promptText="New Password"/>
+        <PasswordField fx:id="fieldConfirmPwd" promptText="Confirm Password"/>
+        <JFXButton onAction="#onSavePassword" prefWidth="100" styleClass="btn-secondary" text="Save"/>
+
+        <Region VBox.vgrow="ALWAYS"/>
+        <Label text="Organization Settings">
+            <font>
+                <Font name="System Bold" size="13.0"/>
+            </font>
+        </Label>
+        <HBox>
+            <Label text="Organization Title"/>
+        </HBox>
+        <TextField fx:id="fieldOrganizationTitle"/>
+        <JFXButton onAction="#onSaveOrganization" prefWidth="100" styleClass="btn-secondary" text="Save"/>
+    </VBox>
+</GridPane>

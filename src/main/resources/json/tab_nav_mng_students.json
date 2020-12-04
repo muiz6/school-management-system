@@ -1,0 +1,15 @@
+{
+  "main_title": "Manage Teachers",
+  "destinations": [
+    {
+      "id": "dest_add_student",
+      "title": "Add Student",
+      "fxmlPath": "/fxml/add_student.fxml"
+    },
+    {
+      "id": "dest_edit_student",
+      "title": "Edit Student",
+      "fxmlPath": "/fxml/edit_student.fxml"
+    }
+  ]
+}

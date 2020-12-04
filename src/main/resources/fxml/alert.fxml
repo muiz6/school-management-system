@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:id="root" xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.project.schoolsystem.ui.alert.AlertContent"
+        prefWidth="300.0" prefHeight="100" spacing="10" stylesheets="/css/theme.css">
+    <Label fx:id="labelMsg"/>
+    <Region VBox.vgrow="ALWAYS"/>
+    <HBox alignment="CENTER_RIGHT" spacing="25">
+        <JFXButton text="No" onAction="#onNo" styleClass="btn-secondary"/>
+        <JFXButton text="Yes" onAction="#onYes" styleClass="btn-secondary"/>
+    </HBox>
+
+    <padding>
+        <Insets top="25" left="25" right="25" bottom="25"/>
+    </padding>
+</VBox>
