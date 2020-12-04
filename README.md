@@ -21,11 +21,12 @@ An experimental project made with javafx.
 
 - Type command `gradlew run` and press Enter.
 
-### On Linxux
+### On Linux
 
 - Type command `./gradlew run` and press Enter.
 
-Gradle shall then download dependencies, build and run the project.
+Gradle shall then download dependencies, build and run the project. If you are interested in learning more about the
+Gradle build tool you can check the [Gradle](https://github.com/gradle/gradle) github repository.
 
 ## Screenshots
 
