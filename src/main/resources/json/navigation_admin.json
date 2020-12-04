@@ -17,7 +17,7 @@
       "id": "dest_class",
       "glyphName": "BOOK",
       "title": "Classes",
-      "fxmlPath": "/fxml/class_page.fxml"
+      "fxmlPath": "/fxml/add_edit_class.fxml"
     },
     {
       "id": "dest_session",

@@ -478,6 +478,28 @@ public class SqlServer {
         });
     }
 
+    public Single<Boolean> patchClass(ClassModel model) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                final String sql = "EXEC sp_patch_class "
+                        + "@code=?,"
+                        + "@department_code=?,"
+                        + "@session_code=?,"
+                        + "@active=?;";
+                try (final Connection conn = DriverManager.getConnection(_CONNECTION_URL);
+                     final PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, model.getClassCode());
+                    ps.setString(2, model.getDepartmentCode());
+                    ps.setString(3, model.getSessionCode());
+                    ps.setBoolean(4, model.isActive());
+                    ps.execute();
+                    emitter.onSuccess(true);
+                }
+            }
+        });
+    }
+
     public Single<List<StudentModel>> getStudents() {
         return Single.create(new SingleOnSubscribe<List<StudentModel>>() {
             @Override
